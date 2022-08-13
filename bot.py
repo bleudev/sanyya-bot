@@ -21,13 +21,12 @@ async def on_ready():
 @bot.event
 async def on_message(message: discord.Message):
     if isinstance(message.channel, discord.DMChannel) or message.channel.id in channels:
-        await message.channel.typing()
+        async with message.channel.typing():
+            text: str = str(main(message.content))
 
-        text: str = str(main(message.content))
+            if text == "None":
+                text = choice(["О чём ты?", "Я не понимаю вас", "Что?"])
 
-        if text == "None":
-            text = choice(["О чём ты?", "Я не понимаю вас", "Что?"])
-
-        await message.reply(text)
+            await message.reply(text)
 
 bot.run(TOKEN)

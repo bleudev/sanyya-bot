@@ -3,7 +3,7 @@ import disspy
 
 TOKEN = os.environ["TOKEN"]
 
-bot = disspy.DisBot(token=TOKEN, status="dnd")
+bot = disspy.DisBot(token=TOKEN, status="dnd", flags=disspy.DisFlags.messages(), debug=True)
 
 
 @bot.on_ready()

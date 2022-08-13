@@ -1,11 +1,23 @@
 from api.assistent import main_ass
+from random import choice
 
 def main(text: str) -> str:
     def key(key: str):
         return text.lower() == key.lower()
 
-    if key("привет"):
+    def keys(keys: list):
+        l = []
+
+        for i in keys:
+            l.append(str(i).lower())
+
+        return text.lower() in l
+
+    if keys(["привет", "прив", "всем прив", "всем привет"]):
         return "Приветик!"
+    
+    if keys(["здрасте", "драсте", "дарова", "здарова"]):
+        return "Дарова!"
 
     if key("как дела?"):
         return "Нормально!"
@@ -20,6 +32,6 @@ def main(text: str) -> str:
         return 'Почему нет?'
 
     if len(text) > 100:
-        return "Ты решил переписать войну и мир?"
+        return choice(["Ты решил переписать войну и мир?", "Интересно."])
 
     return main_ass(text)

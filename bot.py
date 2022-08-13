@@ -1,3 +1,7 @@
+"""
+General file of bot
+"""
+
 import os
 import disspy
 
@@ -13,6 +17,8 @@ async def on_ready():
 
 @bot.on_channel(1008038030042484918)
 async def chat(message: disspy.DisMessage):
+    await message.channel.typing()
+
     await message.reply("Приветик!")
 
 

@@ -10,7 +10,7 @@ from api import main
 TOKEN = os.environ["TOKEN"]
 
 bot = discord.Client()
-channels = [1008038030042484918]
+channels = [1008038030042484918, 1008080816166948865]
 
 
 @bot.event

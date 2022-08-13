@@ -3,42 +3,31 @@ General file of bot
 """
 
 import os
-import disspy
-from api import main
 from random import choice
+import discord
+from api import main
 
 TOKEN = os.environ["TOKEN"]
 
-bot = disspy.DisBot(token=TOKEN, status="dnd", flags=disspy.DisFlags.messages())
+bot = discord.Client()
+channels = [1008038030042484918]
 
 
-@bot.on_ready()
+@bot.event
 async def on_ready():
     print("Hi")
 
 
-@bot.on_channel(1008038030042484918)  # Official discord server chatting channel
-async def chat(message: disspy.DisMessage):
-    await message.channel.typing()
+@bot.event
+async def on_message(message: discord.Message):
+    if isinstance(message.channel, discord.DMChannel) or message.channel.id in channels:
+        await message.channel.typing()
 
-    text: str = str(main(message.content))
+        text: str = str(main(message.content))
 
-    if text == "None":
-        text = choice(["О чём ты?", "Я не понимаю вас", "Что?"])
+        if text == "None":
+            text = choice(["О чём ты?", "Я не понимаю вас", "Что?"])
 
-    await message.reply(text)
+        await message.reply(text)
 
-
-@bot.on_dm_message("create")
-async def dm_chat(message: disspy.DmMessage):
-    # await message.channel.typing() # Typing is not supported in Dm channels
-
-    text: str = str(main(message.content))
-
-    if text == "None":
-        text = choice(["О чём ты?", "Я не понимаю вас", "Что?"])
-
-    await message.reply(text)
-
-
-bot.run()
+bot.run(TOKEN)

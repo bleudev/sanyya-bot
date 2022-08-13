@@ -1,1 +1,1 @@
-disspy==0.5.4
+discord.py

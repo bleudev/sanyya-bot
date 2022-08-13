@@ -1,4 +1,4 @@
-from assistent import main_ass
+from api.assistent import main_ass
 
 def main(text: str) -> str:
     def key(key: str):

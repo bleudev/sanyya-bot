@@ -24,7 +24,7 @@ async def chat(message: disspy.DisMessage):
     text: str = str(main(message.content))
 
     if text == "None":
-        text = choice(["О чём ты?", "Я не понимаю вас", "Ээм"])
+        text = choice(["О чём ты?", "Я не понимаю вас", "Что?"])
 
     await message.reply(text)
 

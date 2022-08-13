@@ -20,6 +20,9 @@ async def on_ready():
 
 @bot.event
 async def on_message(message: discord.Message):
+    if message.author.bot:
+        return
+
     if isinstance(message.channel, discord.DMChannel) or message.channel.id in channels:
         async with message.channel.typing():
             text: str = str(main(message.content))

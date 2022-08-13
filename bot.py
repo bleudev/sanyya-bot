@@ -4,6 +4,7 @@ General file of bot
 
 import os
 import disspy
+from api import main
 
 TOKEN = os.environ["TOKEN"]
 
@@ -19,7 +20,7 @@ async def on_ready():
 async def chat(message: disspy.DisMessage):
     await message.channel.typing()
 
-    await message.reply("Приветик!")
+    await message.reply(main(message.content))
 
 
 bot.run()

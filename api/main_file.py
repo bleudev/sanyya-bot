@@ -1,4 +1,6 @@
 from api.assistent import main_ass
+from .questions import q
+
 from random import choice
 
 def main(text: str) -> str:
@@ -12,6 +14,9 @@ def main(text: str) -> str:
             l.append(str(i).lower())
 
         return text.lower() in l
+
+    if text.endswith("?"):
+        return q(text)
 
     if keys(["привет", "прив", "всем прив", "всем привет", "ку", "куу", "кку", "ккуу", "хай", "хаай"]):
         return "Приветик!"

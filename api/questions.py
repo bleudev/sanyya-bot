@@ -7,17 +7,14 @@ def q(text: str):
     def key(key: str):
         return text == key.lower()
     
-    if text.startswith("ты"):
-        NOT = ["гей", "лох", "пидор", "сука", "дебил", "дура", "дурак", "человек"]
-        YES = ["умный", "бот", "хороший"]
-        
-        q = text.replace("ты", "")
-        
-        if q in NOT:
-            return "Нет"
-        if q in YES:
-            return "Да"
     if key("как дела"):
         return "Нормально!"
-    else:
-        return choice(["Нет", "Да"])
+    
+    NOT = ["гей", "лох", "пидор", "сука", "дебил", "дура", "дурак", "человек"]
+    YES = ["умный", "бот", "хороший"]
+        
+    if text in NOT:
+        return "Нет"
+    if text in YES:
+        return "Да"
+    return choice(["Нет", "Да"])

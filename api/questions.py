@@ -4,6 +4,9 @@ def q(text: str):
     text = text.replace("?", "")
     text = text.lower()
     
+    def key(key: str):
+        return text == key.lower()
+    
     if text.startswith("ты"):
         NOT = ["гей", "лох", "пидор", "сука", "дебил", "дура", "дурак", "человек"]
         YES = ["умный", "бот", "хороший"]
@@ -14,5 +17,7 @@ def q(text: str):
             return "Нет"
         if q in YES:
             return "Да"
+    if key("как дела"):
+        return "Нормально!"
     else:
-        return choice("Нет", "Да")
+        return choice(["Нет", "Да"])

@@ -15,8 +15,8 @@ def main(text: str) -> str:
 
         return text.lower() in l
 
-    if text.endswith("?"):
-        return q(text)
+    if text.lower().endswith("?"):
+        return q(text.lower())
 
     if keys(["привет", "прив", "всем прив", "всем привет", "ку", "куу", "кку", "ккуу", "хай", "хаай"]):
         return "Приветик!"
@@ -26,9 +26,6 @@ def main(text: str) -> str:
 
     if keys(["ок", "окей", "окэй"]):
         return "Ок"
-
-    if key("как дела?"):
-        return "Нормально!"
 
     if key("хаха"):
         return "Хахахахах"

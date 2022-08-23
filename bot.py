@@ -17,40 +17,40 @@ channels = [1008038030042484918, 1008080816166948865]
 
 
 def clean_str(r):
-	r = r.lower()
-	r = [c for c in r if c in alphabet]
-	return ''.join(r)
+    r = r.lower()
+    r = [c for c in r if c in alphabet]
+    return ''.join(r)
 
 alphabet = ' 1234567890-йцукенгшщзхъфывапролджэячсмитьбюёqwertyuiopasdfghjklzxcvbnm?%.,()!:;'
 
 def update():
-	with open('dialogues.txt', encoding='utf-8') as f:
-		content = f.read()
+    with open('dialogues.txt', encoding='utf-8') as f:
+        content = f.read()
 	
-	blocks = content.split('\n')
-	dataset = []
+    blocks = content.split('\n')
+    dataset = []
 	
-	for block in blocks:
-		replicas = block.split('\\')[:2]
-		if len(replicas) == 2:
-			pair = [clean_str(replicas[0]), clean_str(replicas[1])]
-			if pair[0] and pair[1]:
-				dataset.append(pair)
+    for block in blocks:
+        replicas = block.split('\\')[:2]
+        if len(replicas) == 2:
+            pair = [clean_str(replicas[0]), clean_str(replicas[1])]
+            if pair[0] and pair[1]:
+                dataset.append(pair)
 	
-	X_text = []
-	y = []
+    X_text = []
+    y = []
 	
-	for question, answer in dataset[:10000]:
-		X_text.append(question)
-		y += [answer]
+    for question, answer in dataset[:10000]:
+        X_text.append(question)
+        y += [answer]
 	
-	global vectorizer
-	vectorizer = CountVectorizer()
-	X = vectorizer.fit_transform(X_text)
+    global vectorizer
+    vectorizer = CountVectorizer()
+    X = vectorizer.fit_transform(X_text)
 	
-	global clf
-	clf = LogisticRegression()
-	clf.fit(X, y)
+    global clf
+    clf = LogisticRegression()
+    clf.fit(X, y)
 
 update()
 
@@ -67,8 +67,8 @@ async def on_ready():
 
 async def wrong(message):
     a = f"{question}\{message.text.lower()} \n"
-	with open('dialogues.txt', "a", encoding='utf-8') as f:
-		f.write(a)
+    with open('dialogues.txt', "a", encoding='utf-8') as f:
+        f.write(a)
     await message.channel.send("Готово!")
     update()
 
@@ -83,9 +83,9 @@ async def on_message(message: discord.Message):
             text: str = str(message.content).lower()
             
             if text =="не так":
-		        await message.reply("а как?")
-		        await wrong(message)
-	        else:
+                await message.reply("а как?")
+                await wrong(message)
+            else:
                 global question
                 question = text
                 

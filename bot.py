@@ -66,7 +66,7 @@ async def on_ready():
 
 
 async def wrong(message):
-    a = f"{question}\{message.text.lower()} \n"
+    a = f"{question}\{message.content.lower()} \n"
     with open('dialogues.txt', "a", encoding='utf-8') as f:
         f.write(a)
     await message.channel.send("Готово!")

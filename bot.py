@@ -72,6 +72,8 @@ async def wrong(message):
     await message.channel.send("Готово!")
     update()
 
+awaiting_wrong_mes_edit = False
+
 
 @bot.event
 async def on_message(message: discord.Message):
@@ -82,15 +84,20 @@ async def on_message(message: discord.Message):
         async with message.channel.typing():
             text: str = str(message.content).lower()
             
-            if text =="не так":
-                await message.reply("а как?")
+            if awaiting_wrong_mes_edit:
                 await wrong(message)
+                awaiting_wrong_mes_edit = False
+            
             else:
-                global question
-                question = text
-                
-                reply = get_generative_replica(text)
-                
-                await message.reply(reply)
+                if text =="не так":
+                    await message.reply("а как?")
+                    awaiting_wrong_mes_edit = True
+                else:
+                    global question
+                    question = text
+                    
+                    reply = get_generative_replica(text)
+                    
+                    await message.reply(reply)
 
 bot.run(TOKEN)

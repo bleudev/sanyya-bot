@@ -12,7 +12,7 @@ import re
 
 TOKEN = os.environ["TOKEN"]
 
-bot = discord.Client(intents=discord.Intents.message_content())
+bot = discord.Client(intents=discord.Intents.all())
 channels = [1008038030042484918, 1008080816166948865]
 
 

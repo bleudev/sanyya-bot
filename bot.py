@@ -5,7 +5,8 @@ from google.cloud import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
 from time import sleep
 
-bot = discord.Client(intents=discord.Intents.all())
+bot = commands.Bot(intents=discord.Intents.all(), command_prefix="/")
+bot.remove_command('help')
 
 bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
 

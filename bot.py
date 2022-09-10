@@ -46,7 +46,7 @@ async def on_message(message: discord.Message):
 
     if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
         async with message.channel.typing():
-            sleep(1.0)
+            sleep(0.5)
 
         await textMessage(message)
 

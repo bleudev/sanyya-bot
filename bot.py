@@ -3,6 +3,9 @@ from google.cloud import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
 
 bot = discord.Client(intents=discord.Intents.all())
+
+bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
+
 channels = [1008038030042484918, 1008080816166948865]
 
 

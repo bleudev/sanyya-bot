@@ -1,2 +1,3 @@
 discord.py
-scikit-learn
+google-api-core
+google-cloud-dialogflow

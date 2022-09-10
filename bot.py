@@ -1,103 +1,46 @@
-"""
-General file of bot
-"""
-
-import os
-from random import choice
-import discord
-from api import main
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
-import re
-
-TOKEN = os.environ["TOKEN"]
+import discord, os
+from google.cloud import dialogflow_v2 as dialogflow
+from google.api_core.exceptions import InvalidArgument
 
 bot = discord.Client(intents=discord.Intents.all())
 channels = [1008038030042484918, 1008080816166948865]
 
 
-def clean_str(r):
-    r = r.lower()
-    r = [c for c in r if c in alphabet]
-    return ''.join(r)
-
-alphabet = ' 1234567890-йцукенгшщзхъфывапролджэячсмитьбюёqwertyuiopasdfghjklzxcvbnm?%.,()!:;'
-
-def update():
-    with open('dialogues.txt', encoding='utf-8') as f:
-        content = f.read()
-	
-    blocks = content.split('\n')
-    dataset = []
-	
-    for block in blocks:
-        replicas = block.split('\\')[:2]
-        if len(replicas) == 2:
-            pair = [clean_str(replicas[0]), clean_str(replicas[1])]
-            if pair[0] and pair[1]:
-                dataset.append(pair)
-	
-    X_text = []
-    y = []
-	
-    for question, answer in dataset[:10000]:
-        X_text.append(question)
-        y += [answer]
-	
-    global vectorizer
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit_transform(X_text)
-	
-    global clf
-    clf = LogisticRegression()
-    clf.fit(X, y)
-
-update()
-
-def get_generative_replica(text):
-	text_vector = vectorizer.transform([text]).toarray()[0]
-	question = clf.predict([text_vector])[0]
-	return question
-
-
 @bot.event
 async def on_ready():
-    print("Hi")
+    print("Hi?")
 
 
-async def wrong(message):
-    a = f"{question}\{message.content.lower()} \n"
-    with open('dialogues.txt', "a", encoding='utf-8') as f:
-        f.write(a)
-    await message.channel.send("Готово!")
-    update()
+async def textMessage(mes):
+    channel = mes.channel
+    text_to_be_analyzed = mes.content
+    
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
 
-awaiting_wrong_mes_edit = False
+    DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
+    DIALOGFLOW_LANGUAGE_CODE = 'ru'
+    SESSION_ID = 'me'
 
+    session_client = dialogflow.SessionsClient()
+    session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
+    text_input = dialogflow.types.TextInput(text=text_to_be_analyzed, language_code=DIALOGFLOW_LANGUAGE_CODE)
+    query_input = dialogflow.types.QueryInput(text=text_input)
+    try:
+        response = session_client.detect_intent(session=session, query_input=query_input)
+    except InvalidArgument:
+        raise
+
+    if response.query_result.fulfillment_text:
+        await channel.send(str(response.query_result.fulfillment_text))
+    else:
+        await channel.send('Я Вас не совсем понял!')
 
 @bot.event
 async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
-    if isinstance(message.channel, discord.DMChannel) or message.channel.id in channels:
-        async with message.channel.typing():
-            text: str = str(message.content).lower()
-            
-            if awaiting_wrong_mes_edit:
-                await wrong(message)
-                awaiting_wrong_mes_edit = False
-            
-            else:
-                if text =="не так":
-                    await message.reply("а как?")
-                    awaiting_wrong_mes_edit = True
-                else:
-                    global question
-                    question = text
-                    
-                    reply = get_generative_replica(text)
-                    
-                    await message.reply(reply)
+    if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
+        await textMessage(message)
 
-bot.run(TOKEN)
+bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

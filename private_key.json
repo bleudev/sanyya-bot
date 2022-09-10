@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "small-talk-sanyya-xvlg",
+  "private_key_id": "e7c723f846eac0f0cbe04e4da2ad2c1d7ffb7cc1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCjmqDh9rR8vnzI\nuudEZKWuUwhdwvlOkhkTN2fZqrY2j3/jwv3bSiL1dmU5IaUqsGx4k7m5TrodlAGi\nYsPJ00WJ+8ewGgKeWmI4njR+T3Met4wn9M3lSJAjWicxRWPUfA+bm7MvhFi6bqSu\n9PQ76PCBaZoMX5MjA7WZFLaxl3BvSiQ8zKC/9Kg623lhrD7bASIa4gdGlTebX0SZ\najwwiORCOPPKah3oZIdRKt4UrFcta6oWJMl7NezPfvDkmC4QuYs2vJ78TmZXe1Z1\n/LvzVJdFcVpprPCZxH6msLMO1EADx4WAD+sbeD1WJPGGjh2euweXObGVQ1dXkU6d\n2Yxk9rkzAgMBAAECggEAOV5uje4ZqiiNz0Gi+Rul8XQSWfaVv5SBkHh8RRqUnJtD\nSFXG+M+NZK+onRkMNuT4lGuQ08ckgly1GgEyEKKyHsmYY0sroeWlzZ7EX4pyntHU\nJuq0DHOef5cMaT2g3RDH1FQLyFzLVEyaGPOydROgynCCYVZeXQfe9RgLXEjzV0KC\n9EI1aLtrmXjVB85M3F5t20zgPWNBdGCXeYpPd34ppqOvVnIiWqeh80CzIzCHgEdz\nlNNfzymbB4eZCE/JJfCOJ5Oeo/1kq09/STaFGy4T4nA1lPe2tnVMmGaxIGaZqbW/\n71Z3b96Wx0gx/koJL63mueh5ipmDLp0erFyZkj2FqQKBgQDlCsF0+ZZQULiKWm6Q\nUtN3tMHJWAcOrS3vuIZ5uua3IOhU9jH+hVeNXXyNUBpdESu91b2dX+O2OLIBsjnC\nCBOMC2NNomjNqguerygI02I7m+n6igmQYC3VE7QSrkmnnWMVCj6Fvxz7PerM70Cq\ngC+WwJMys5CLj51Y+dohJDCwjwKBgQC23CqWpjL7+B9/QdfHszf9U02NTIBhxNpd\ntfLjHKpUMvTUf5BZy1zGJIg5iCQzBl86DxDpN+adBDq1j7AGnyA9+R9vDcSpCKVZ\nPOE3lBNMGCqouY9C4ZitlnhnfGeYB2ZqO3EYpkSGrs1IiII/C3Bx5hwlwKhcUQL+\nrj4/TDw3HQKBgQCLhmDRFFXX+URhq7McoggGLQu7zq8F5sNL+/mXYB65wgcl8pAD\n/1CVYjTElN5qgVJHI1SN8OLzl1gApoR+yZK2xh0pJt13I7ZOZV8a+UInE9SV9c7b\nr2tcGNOiaZ+exsacA5CQwxoxhsdpLfoTo2DaEdfZk/9itQriL9oMRFKQywKBgQCf\ncHL17i4wQxV7iTaTGnIsQNEy7cxW8ySPZxFD83+UcOXGzv9XPBlFbx8UQt+FWf34\nCqDtKN+8cq6aFpIeA+tB/hDpbPDXjgFWQN4C7uqwg7XWbg06/Kd6W+PaH7/X8EPd\nRr0DCB5h7NJzdwtR2zCNL13FkSl7bOuWkukVmew7BQKBgClsVUeF94OObN7ZLTTq\nG4w6cN8sG7RHG1BsPyqJaukqeQWz5oMIPJdqXsJRUj5u1paPcz5H1DdUNtif0bsr\n5QkEzT0xqjzO1eLdeiktnx/8H+4QCkdRnLghWDBDOPlj6Y9k0kWTFLPd1YqpOFQD\nqwdntDsNWSjbagL9zXVVp5MF\n-----END PRIVATE KEY-----\n",
+  "client_email": "discord-sanyya@small-talk-sanyya-xvlg.iam.gserviceaccount.com",
+  "client_id": "113888549975693503493",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/discord-sanyya%40small-talk-sanyya-xvlg.iam.gserviceaccount.com"
+}

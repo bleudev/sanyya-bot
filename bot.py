@@ -1,4 +1,6 @@
 import discord, os
+from discord import app_commands
+from discord.ext import commands
 from google.cloud import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
 from time import sleep
@@ -10,20 +12,16 @@ bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, role
 channels = [1008038030042484918, 1008080816166948865]
 
 
-@bot.event
-async def on_ready():
-    print("Hi?")
+# Dialogflow settings
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
+
+DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
+DIALOGFLOW_LANGUAGE_CODE = 'ru'
+SESSION_ID = 'SanyyaBotAI'
 
 
 async def textMessage(mes):
-    channel = mes.channel
     text_to_be_analyzed = mes.content
-    
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
-
-    DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
-    DIALOGFLOW_LANGUAGE_CODE = 'ru'
-    SESSION_ID = 'me'
 
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
@@ -37,17 +35,35 @@ async def textMessage(mes):
     if response.query_result.fulfillment_text:
         await mes.reply(str(response.query_result.fulfillment_text))
     else:
-        await mes.reply('Я Вас не совсем понял!')
+        await mes.reply('Я Вас не понял!')
 
-@bot.event
-async def on_message(message: discord.Message):
-    if message.author.bot:
-        return
 
-    if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
-        async with message.channel.typing():
-            sleep(0.3)
+class SanyyaBot(commands.Cog):
+    def __init__(self, bot) -> None:
+        self.bot = bot
+    
+    @app_commands.command()
+    async def info(self, interaction: discord.Interaction):
+        await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f")
 
-        await textMessage(message)
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("Hi?")
+
+    @commands.Cog.listener()
+    async def on_message(self, message: discord.Message):
+        if message.author.bot:
+            return
+
+        if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
+            async with message.channel.typing():
+                sleep(0.3)
+
+            await textMessage(message)
+
+def setup(bot):
+    bot.add_cog(SanyyaBot(bot))
+
+setup(bot)
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

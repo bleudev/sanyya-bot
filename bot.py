@@ -1,6 +1,7 @@
 import discord, os
 from google.cloud import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
+from time import sleep
 
 bot = discord.Client(intents=discord.Intents.all())
 
@@ -44,6 +45,9 @@ async def on_message(message: discord.Message):
         return
 
     if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
+        async with message.channel.typing():
+            sleep(1.0)
+
         await textMessage(message)
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

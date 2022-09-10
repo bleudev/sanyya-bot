@@ -1,14 +1,8 @@
 import discord, os
 from discord import app_commands
-from discord.ext import commands
 from google.cloud import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
 from time import sleep
-
-bot = commands.Bot(intents=discord.Intents.all(), command_prefix="/")
-bot.remove_command('help')
-
-bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
 
 channels = [1008038030042484918, 1008080816166948865]
 
@@ -39,33 +33,37 @@ async def textMessage(mes):
         await mes.reply('Я Вас не понял!')
 
 
-class SanyyaBot(commands.Cog):
-    def __init__(self, bot) -> None:
-        self.bot = bot
+class SanyyaBot(discord.Client):
+    def __init__(self, *, intents: discord.Intents) -> None:
+        super().__init__(intents=intents)
+        self.tree = app_commands.CommandTree(self)
     
-    @app_commands.command()
-    async def info(self, interaction: discord.Interaction):
-        await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f")
+    async def setup_hook(self):
+        await self.tree.sync()
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print("Hi?")
+bot = SanyyaBot(intents=discord.Intents.all())
 
-    @commands.Cog.listener()
-    async def on_message(self, message: discord.Message):
-        if message.author.bot:
-            return
+bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
 
-        if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
-            async with message.channel.typing():
-                sleep(0.3)
+@bot.tree.command()
+async def info(interaction: discord.Interaction):
+    await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f")
 
-            await textMessage(message)
 
-async def setup(bot):
-    await bot.add_cog(SanyyaBot(bot))
+@bot.event
+async def on_ready():
+    print("Hi?")
 
-from asyncio import run
-run(setup(bot))
+
+@bot.event
+async def on_message(message: discord.Message):
+    if message.author.bot:
+        return
+
+    if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
+        async with message.channel.typing():
+            sleep(0.3)
+
+        await textMessage(message)
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

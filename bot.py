@@ -72,7 +72,7 @@ async def баг(interaction: discord.Interaction):
             mes = self.message
             
             if self.profile_for_connection.value:
-                mes = "Профиль для связи: " + self.profile_for_connection + "\n\n" + self.message
+                mes = "Профиль для связи: " + str(self.profile_for_connection) + "\n\n" + str(self.message)
             
             await channel.send(mes)
             

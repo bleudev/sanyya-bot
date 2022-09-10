@@ -45,8 +45,8 @@ bot = SanyyaBot(intents=discord.Intents.all())
 
 bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
 
-@bot.tree.command()
-async def info(interaction: discord.Interaction):
+@bot.tree.command(description="Информация про бота")
+async def инфо(interaction: discord.Interaction):
     await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f")
 
 

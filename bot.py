@@ -52,7 +52,7 @@ async def инфо(interaction: discord.Interaction):
 
 @bot.tree.command(description="Сообщить о баге")
 async def баг(interaction: discord.Interaction):
-    class BugReportModal(ui.Modal, title='Questionnaire Response'):
+    class BugReportModal(ui.Modal, title='Сообщить о баге'):
         message = ui.TextInput(label="Сообщение",
                                style=discord.TextStyle.long,
                                custom_id="bug_report",
@@ -78,15 +78,7 @@ async def баг(interaction: discord.Interaction):
             
             await interaction.response.send_message('Спасибо!', ephemeral=True)
     
-    message = ui.TextInput(label="Сообщение")
-    message.style = discord.TextStyle.long
-    message.placeholder = "Не работает команда /инфо"
-    
-    message.callback
-    
-    modal.add_item()
-    
-    await interaction.response.send_modal(ui.Modal())
+    await interaction.response.send_modal(BugReportModal())
 
 @bot.event
 async def on_ready():

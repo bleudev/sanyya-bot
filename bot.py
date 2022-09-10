@@ -1,5 +1,5 @@
 import discord, os
-from discord import app_commands
+from discord import app_commands, ui
 from google.cloud import dialogflow_v2 as dialogflow
 from google.api_core.exceptions import InvalidArgument
 from time import sleep
@@ -49,6 +49,44 @@ bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, role
 async def инфо(interaction: discord.Interaction):
     await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f")
 
+
+@bot.tree.command(description="Сообщить о баге")
+async def баг(interaction: discord.Interaction):
+    class BugReportModal(ui.Modal, title='Questionnaire Response'):
+        message = ui.TextInput(label="Сообщение",
+                               style=discord.TextStyle.long,
+                               custom_id="bug_report",
+                               placeholder="Не работает команда /инфо")
+
+        profile_for_connection = ui.TextInput(label="Профиль для связи",
+                                              style=discord.TextStyle.short,
+                                              custom_id="profile_for_connection",
+                                              placeholder="name#1234",
+                                              required=False,
+                                              min_length=5,
+                                              max_length=100)
+        
+        async def on_submit(self, interaction: discord.Interaction):
+            channel = bot.get_channel(1018276325703811222)
+            
+            mes = self.message
+            
+            if self.profile_for_connection.value:
+                mes = "Профиль для связи: " + self.profile_for_connection + "\n\n" + self.message
+            
+            await channel.send(mes)
+            
+            await interaction.response.send_message('Спасибо!', ephemeral=True)
+    
+    message = ui.TextInput(label="Сообщение")
+    message.style = discord.TextStyle.long
+    message.placeholder = "Не работает команда /инфо"
+    
+    message.callback
+    
+    modal.add_item()
+    
+    await interaction.response.send_modal(ui.Modal())
 
 @bot.event
 async def on_ready():

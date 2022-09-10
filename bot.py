@@ -62,9 +62,10 @@ class SanyyaBot(commands.Cog):
 
             await textMessage(message)
 
-def setup(bot):
-    bot.add_cog(SanyyaBot(bot))
+async def setup(bot):
+    await bot.add_cog(SanyyaBot(bot))
 
-setup(bot)
+from asyncio import run
+run(setup(bot))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

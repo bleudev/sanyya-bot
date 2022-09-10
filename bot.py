@@ -31,9 +31,9 @@ async def textMessage(mes):
         raise
 
     if response.query_result.fulfillment_text:
-        await channel.send(str(response.query_result.fulfillment_text))
+        await mes.reply(str(response.query_result.fulfillment_text))
     else:
-        await channel.send('Я Вас не совсем понял!')
+        await mes.reply('Я Вас не совсем понял!')
 
 @bot.event
 async def on_message(message: discord.Message):

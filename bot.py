@@ -1,7 +1,6 @@
 import discord, os
 from discord import app_commands, ui
 from google.cloud import dialogflow_v2 as dialogflow
-from google.api_core.exceptions import InvalidArgument
 from time import sleep
 
 channels = [1008038030042484918, 1008080816166948865]
@@ -17,35 +16,33 @@ SESSION_ID = 'SanyyaBotAI'
 endl = "\n"
 
 
-async def textMessage(mes):
+def textMessage(mes) -> str:
     text_to_be_analyzed = mes.content
 
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
-    text_input = dialogflow.types.TextInput(text=text_to_be_analyzed, language_code=DIALOGFLOW_LANGUAGE_CODE)
+    text_input = dialogflow.types.TextInput(text=text_to_be_analyzed,
+                                            language_code=DIALOGFLOW_LANGUAGE_CODE)
     query_input = dialogflow.types.QueryInput(text=text_input)
-    try:
-        response = session_client.detect_intent(session=session, query_input=query_input)
-    except InvalidArgument:
-        raise
+
+    response = session_client.detect_intent(session=session, query_input=query_input)
 
     if response.query_result.fulfillment_text:
-        await mes.reply(str(response.query_result.fulfillment_text))
+        return str(response.query_result.fulfillment_text)
     else:
-        await mes.reply('Я Вас не понял!')
+        return 'Я Вас не понял!'
 
 
 class SanyyaBot(discord.Client):
-    def __init__(self, *, intents: discord.Intents) -> None:
-        super().__init__(intents=intents)
+    def __init__(self) -> None:
+        super().__init__(intents=discord.Intents.all())
         self.tree = app_commands.CommandTree(self)
+        self.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
     
     async def setup_hook(self):
         await self.tree.sync()
 
-bot = SanyyaBot(intents=discord.Intents.all())
-
-bot.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
+bot = SanyyaBot()
 
 @bot.tree.command(description="Информация про бота")
 async def инфо(interaction: discord.Interaction):

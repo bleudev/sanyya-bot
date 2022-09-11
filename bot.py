@@ -16,12 +16,10 @@ SESSION_ID = 'SanyyaBotAI'
 endl = "\n"
 
 
-def textMessage(mes) -> str:
-    text_to_be_analyzed = mes.content
-
+def textMessage(s) -> str:
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
-    text_input = dialogflow.types.TextInput(text=text_to_be_analyzed,
+    text_input = dialogflow.types.TextInput(text=s,
                                             language_code=DIALOGFLOW_LANGUAGE_CODE)
     query_input = dialogflow.types.QueryInput(text=text_input)
 
@@ -151,6 +149,6 @@ async def on_message(message: discord.Message):
         async with message.channel.typing():
             sleep(0.3)
 
-        await textMessage(message)
+        await message.reply(textMessage(message.content))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

@@ -137,7 +137,7 @@ async def идея(interaction: discord.Interaction):
 
 @bot.tree.context_menu(name="Получить ответ")
 async def get_answer(interaction: discord.Interaction, message: discord.Message):
-    await interaction.response.send_message(message.content + (endl * 2) + textMessage(message.content))
+    await interaction.response.send_message(textMessage(message.content), ephemeral=True)
 
 @bot.event
 async def on_ready():

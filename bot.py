@@ -136,6 +136,8 @@ async def идея(interaction: discord.Interaction):
             await channel.send(mes)
             
             await interaction.response.send_message('Спасибо!', ephemeral=True)
+    
+    await interaction.response.send_modal(IdeaModal())
 
 
 @bot.event

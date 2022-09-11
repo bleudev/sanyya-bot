@@ -14,6 +14,8 @@ DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
 DIALOGFLOW_LANGUAGE_CODE = 'ru'
 SESSION_ID = 'SanyyaBotAI'
 
+endl = "\n"
+
 
 async def textMessage(mes):
     text_to_be_analyzed = mes.content
@@ -53,10 +55,22 @@ async def инфо(interaction: discord.Interaction):
 @bot.tree.command(description="Сообщить о баге")
 async def баг(interaction: discord.Interaction):
     class BugReportModal(ui.Modal, title='Сообщить о баге'):
-        message = ui.TextInput(label="Сообщение",
-                               style=discord.TextStyle.long,
-                               custom_id="bug_report",
-                               placeholder="Не работает команда /инфо")
+        your_message = ui.TextInput(label="Ваше сообщение",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="your_message",
+                               placeholder="Привет!")
+
+        bot_message = ui.TextInput(label="Ответ бота",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="bot_message",
+                               placeholder="Приветик! Как дела?")
+        
+        additional_info = ui.TextInput(label="Дополнительная информация",
+                                       style=discord.TextStyle.long,
+                                       custom_id="additional_info",
+                                       placeholder='Должен отвечать "Привет!"',
+                                       required=False,
+                                       min_length=10)
 
         profile_for_connection = ui.TextInput(label="Профиль для связи",
                                               style=discord.TextStyle.short,
@@ -69,16 +83,60 @@ async def баг(interaction: discord.Interaction):
         async def on_submit(self, interaction: discord.Interaction):
             channel = bot.get_channel(1018276325703811222)
             
-            mes = self.message
-            
+            message = str(self.your_message) + (endl * 2) + str(self.bot_message)
+
+            mes = ""
+
             if self.profile_for_connection.value:
-                mes = "Профиль для связи: " + str(self.profile_for_connection) + "\n\n" + str(self.message)
+                mes += "Профиль для связи: " + str(self.profile_for_connection) + (endl * 2)
+            
+            if self.additional_info.value:
+                mes += "Дополнительная информация: " + str(self.additional_info) + (endl * 2)
+            
+            mes += message
             
             await channel.send(mes)
             
             await interaction.response.send_message('Спасибо!', ephemeral=True)
     
     await interaction.response.send_modal(BugReportModal())
+
+
+@bot.tree.command(description="Предложить идею")
+async def идея(interaction: discord.Interaction):
+    class IdeaModal(ui.Modal, title='Предложить идею'):
+        your_message = ui.TextInput(label="Ваше сообщение",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="your_message",
+                               placeholder="Привет!")
+
+        bot_message = ui.TextInput(label="Ответ бота",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="bot_message",
+                               placeholder="Приветик! Как дела?")
+
+        profile_for_connection = ui.TextInput(label="Профиль для связи",
+                                              style=discord.TextStyle.short,
+                                              custom_id="profile_for_connection",
+                                              placeholder="name#1234",
+                                              required=False,
+                                              min_length=5,
+                                              max_length=100)
+        
+        async def on_submit(self, interaction: discord.Interaction):
+            channel = bot.get_channel(1018508847750586448)
+            
+            message = str(self.your_message) + (endl * 2) + str(self.bot_message)
+
+            mes = message
+
+            if self.profile_for_connection.value:
+                mes = "Профиль для связи: " + str(self.profile_for_connection) + (endl * 2) + str(message)
+            
+            await channel.send(mes)
+            
+            await interaction.response.send_message('Спасибо!', ephemeral=True)
+
 
 @bot.event
 async def on_ready():

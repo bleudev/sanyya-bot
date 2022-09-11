@@ -16,7 +16,7 @@ SESSION_ID = 'SanyyaBotAI'
 endl = "\n"
 
 
-def textMessage(s) -> str:
+def textMessage(s: str) -> str:
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
     text_input = dialogflow.types.TextInput(text=s,
@@ -134,6 +134,10 @@ async def идея(interaction: discord.Interaction):
     
     await interaction.response.send_modal(IdeaModal())
 
+
+@bot.tree.context_menu(name="Получить ответ")
+async def get_answer(interaction: discord.Interaction, message: discord.Message):
+    await interaction.response.send_message(message.content + (endl * 2) + textMessage(message.content))
 
 @bot.event
 async def on_ready():

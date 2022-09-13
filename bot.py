@@ -72,11 +72,11 @@ async def привязать(interaction: discord.Interaction):
         async with conn.cursor() as cursor:
             try:
                 await cursor.execute('''CREATE TABLE channels
-                                        (id text)''')
+                                        (id text,chatmode bit)''')
             except:
                 pass
             
-            await cursor.execute(f"INSERT INTO channels VALUES ('{str(channel_id)}')")
+            await cursor.execute(f"INSERT INTO channels VALUES ('{str(channel_id)}',0)")
 
             await conn.commit()
     
@@ -92,7 +92,7 @@ async def отвязать(interaction: discord.Interaction):
         async with conn.cursor() as cursor:
             try:
                 await cursor.execute('''CREATE TABLE channels
-                                        (id text)''')
+                                        (id text,chatmode bit)''')
             except:
                 pass
             
@@ -229,7 +229,23 @@ async def on_message(message: discord.Message):
                 l = "ru"
                 break
         
-        await message.reply(textMessage(message.content, lang=l))
-        # await message.reply(str(getEnglishAlphabet()))
+        async with asqlite.connect('channels.db') as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute(f"SELECT chatmode FROM channels WHERE id = '{message.channel.id}'")
+
+                row = await cursor.fetchone()
+                chatmode = row["chatmode"]
+                
+                go_to_chat = ['давай поболтаем']
+                end_chat = ['хватит']
+                
+                if chatmode == 0:
+                    if message.content.lower() in go_to_chat:
+                        await cursor.execute(f"UPDATE channels SET chatmode = 1 WHERE id = '{message.channel.id}'")
+                    await message.reply("Ассистент!")
+                elif chatmode == 1:
+                    if message.content.lower() in end_chat:
+                        await cursor.execute(f"UPDATE channels SET chatmode = 0 WHERE id = '{message.channel.id}'")
+                    await message.reply(textMessage(message.content, lang=l))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

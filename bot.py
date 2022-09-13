@@ -33,8 +33,8 @@ def textMessage(s: str, lang="ru") -> str:
     else:
         return i_dont_understands[lang]
 
-def getEnglishAlphabet() -> list:
-    return [i for i in 'abcdefghijklmopqrstuvwxyz']
+def getRussianAlphabet() -> list:
+    return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']
 
 
 class SanyyaBot(discord.Client):
@@ -159,7 +159,14 @@ async def on_message(message: discord.Message):
         async with message.channel.typing():
             sleep(0.3)
 
-        await message.reply(textMessage(message.content))
+        l = "en"
+        
+        for i in message.content.lower():
+            if i in getRussianAlphabet():
+                l = "ru"
+                break
+        
+        await message.reply(textMessage(message.content, lang=l))
         # await message.reply(str(getEnglishAlphabet()))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

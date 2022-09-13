@@ -10,17 +10,20 @@ channels = [1008038030042484918, 1008080816166948865]
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
 
 DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
-DIALOGFLOW_LANGUAGE_CODE = 'ru'
 SESSION_ID = 'SanyyaBotAI'
 
 endl = "\n"
+i_dont_understands = {
+    "ru": "Я Вас не понял!",
+    "en": "I don't inderstand you"
+}
 
 
-def textMessage(s: str) -> str:
+def textMessage(s: str, lang="ru") -> str:
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
     text_input = dialogflow.types.TextInput(text=s,
-                                            language_code=DIALOGFLOW_LANGUAGE_CODE)
+                                            language_code=lang)
     query_input = dialogflow.types.QueryInput(text=text_input)
 
     response = session_client.detect_intent(session=session, query_input=query_input)
@@ -28,7 +31,10 @@ def textMessage(s: str) -> str:
     if response.query_result.fulfillment_text:
         return str(response.query_result.fulfillment_text)
     else:
-        return 'Я Вас не понял!'
+        return i_dont_understands[lang]
+
+def getEnglishAlphabet() -> list:
+    return [i for i in 'abcdefghijklmopqrstuvwxyz']
 
 
 class SanyyaBot(discord.Client):
@@ -153,6 +159,7 @@ async def on_message(message: discord.Message):
         async with message.channel.typing():
             sleep(0.3)
 
-        await message.reply(textMessage(message.content))
+        # await message.reply(textMessage(message.content))
+        await message.reply(str(getEnglishAlphabet()))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

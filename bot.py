@@ -53,15 +53,18 @@ bot = SanyyaBot()
 async def update_db() -> None:
     async with asqlite.connect('channels.db') as conn:
         async with conn.cursor() as cursor:
-            await cursor.execute("SELECT * FROM channels")
+            try:
+                await cursor.execute("SELECT * FROM channels")
 
-            rows = await cursor.fetchall()
-            
-            global channels
-            channels = [ch["id"] for ch in rows]
-            
-            activity = discord.Activity(type=discord.ActivityType.watching, name=f"{len(channels)} каналов с ботом")
-            await bot.change_presence(activity=activity, status="dnd")
+                rows = await cursor.fetchall()
+                
+                global channels
+                channels = [ch["id"] for ch in rows]
+                
+                activity = discord.Activity(type=discord.ActivityType.watching, name=f"{len(channels)} каналов с ботом")
+                await bot.change_presence(activity=activity, status="dnd")
+            except:
+                pass
 
 
 @bot.tree.command(description="Привязать бота к этому каналу")

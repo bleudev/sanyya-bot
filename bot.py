@@ -159,7 +159,7 @@ async def on_message(message: discord.Message):
         async with message.channel.typing():
             sleep(0.3)
 
-        # await message.reply(textMessage(message.content))
-        await message.reply(str(getEnglishAlphabet()))
+        await message.reply(textMessage(message.content))
+        # await message.reply(str(getEnglishAlphabet()))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

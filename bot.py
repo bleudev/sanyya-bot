@@ -2,6 +2,7 @@ import discord, os
 from discord import app_commands, ui
 from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
+import asqlite
 
 channels = [1008038030042484918, 1008080816166948865]
 
@@ -48,9 +49,70 @@ class SanyyaBot(discord.Client):
 
 bot = SanyyaBot()
 
+
+async def update_db() -> None:
+    async with asqlite.connect('channels.db') as conn:
+        async with conn.cursor() as cursor:
+            await cursor.execute("SELECT * FROM channels")
+
+            rows = await cursor.fetchall()
+            
+            global channels
+            channels = [ch["id"] for ch in rows]
+            
+            activity = discord.Activity(type=discord.ActivityType.watching, name=f"{len(channels)} каналов с ботом")
+            await bot.change_presence(activity=activity, status="dnd")
+
+
+@bot.tree.command(description="Привязать бота к этому каналу")
+async def привязать(interaction: discord.Interaction):
+    channel_id = interaction.channel_id
+
+    async with asqlite.connect('channels.db') as conn:
+        async with conn.cursor() as cursor:
+            try:
+                await cursor.execute('''CREATE TABLE channels
+                                        (id text)''')
+            except:
+                pass
+            
+            await cursor.execute(f"INSERT INTO channels VALUES ('{str(channel_id)}')")
+
+            await conn.commit()
+    
+    await update_db()
+    await interaction.response.send_message("Готово!", ephemeral=True)
+
+
+@bot.tree.command(description="Отвязать бота от этого канала")
+async def отвязать(interaction: discord.Interaction):
+    channel_id = interaction.channel_id
+
+    async with asqlite.connect('channels.db') as conn:
+        async with conn.cursor() as cursor:
+            try:
+                await cursor.execute('''CREATE TABLE channels
+                                        (id text)''')
+            except:
+                pass
+            
+            try:
+                await cursor.execute(f"DELETE from channels where id = {str(channel_id)}")
+                
+                await conn.commit()
+            except:
+                await update_db()
+
+                await interaction.response.send_message("Этот канал не привязан к боту", ephemeral=True)
+                return
+    
+    await update_db()
+    await interaction.response.send_message("Готово!", ephemeral=True)
+
+
 @bot.tree.command(description="Информация про бота")
 async def инфо(interaction: discord.Interaction):
-    await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f")
+    await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f", ephemeral=True)
 
 
 @bot.tree.command(description="Сообщить о баге")
@@ -147,6 +209,7 @@ async def get_answer(interaction: discord.Interaction, message: discord.Message)
 
 @bot.event
 async def on_ready():
+    await update_db()
     print("Hi?")
 
 
@@ -155,7 +218,7 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
-    if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
+    if str(message.channel.id) in channels or isinstance(message.channel, discord.DMChannel):
         async with message.channel.typing():
             sleep(0.3)
 

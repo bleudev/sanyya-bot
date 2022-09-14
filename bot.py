@@ -2,9 +2,10 @@ import discord, os
 from discord import app_commands, ui
 from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
-import asqlite
 
 channels = [1008038030042484918, 1008080816166948865]
+
+channels_json = {i: False for i in channels}
 
 
 # Dialogflow settings
@@ -76,69 +77,6 @@ class SanyyaBot(discord.Client):
         await self.tree.sync()
 
 bot = SanyyaBot()
-
-
-async def update_db() -> None:
-    async with asqlite.connect('channels.db') as conn:
-        async with conn.cursor() as cursor:
-            try:
-                await cursor.execute("SELECT * FROM channels")
-
-                rows = await cursor.fetchall()
-                
-                global channels
-                channels = [ch["id"] for ch in rows]
-                
-                activity = discord.Activity(type=discord.ActivityType.watching, name=f"{len(channels)} каналов с ботом")
-                await bot.change_presence(activity=activity, status="dnd")
-            except:
-                pass
-
-
-@bot.tree.command(description="Привязать бота к этому каналу")
-async def привязать(interaction: discord.Interaction):
-    channel_id = interaction.channel_id
-
-    async with asqlite.connect('channels.db') as conn:
-        async with conn.cursor() as cursor:
-            try:
-                await cursor.execute('''CREATE TABLE channels
-                                        (id text,chatmode bit)''')
-            except:
-                pass
-            
-            await cursor.execute(f"INSERT INTO channels VALUES ('{str(channel_id)}',0)")
-
-            await conn.commit()
-    
-    await update_db()
-    await interaction.response.send_message("Готово!", ephemeral=True)
-
-
-@bot.tree.command(description="Отвязать бота от этого канала")
-async def отвязать(interaction: discord.Interaction):
-    channel_id = interaction.channel_id
-
-    async with asqlite.connect('channels.db') as conn:
-        async with conn.cursor() as cursor:
-            try:
-                await cursor.execute('''CREATE TABLE channels
-                                        (id text,chatmode bit)''')
-            except:
-                pass
-            
-            try:
-                await cursor.execute(f"DELETE from channels where id = {str(channel_id)}")
-                
-                await conn.commit()
-            except:
-                await update_db()
-
-                await interaction.response.send_message("Этот канал не привязан к боту", ephemeral=True)
-                return
-    
-    await update_db()
-    await interaction.response.send_message("Готово!", ephemeral=True)
 
 
 @bot.tree.command(description="Информация про бота")
@@ -240,7 +178,9 @@ async def get_answer(interaction: discord.Interaction, message: discord.Message)
 
 @bot.event
 async def on_ready():
-    await update_db()
+    activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
+    await bot.change_presence(activity=activity, status="dnd")
+
     print("Hi?")
 
 
@@ -249,7 +189,7 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
-    if str(message.channel.id) in channels or isinstance(message.channel, discord.DMChannel):
+    if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
         async with message.channel.typing():
             sleep(0.3)
 
@@ -260,27 +200,21 @@ async def on_message(message: discord.Message):
                 l = "ru"
                 break
         
-        async with asqlite.connect('channels.db') as conn:
-            async with conn.cursor() as cursor:
-                await cursor.execute(f"SELECT chatmode FROM channels WHERE id = '{message.channel.id}'")
-
-                row = await cursor.fetchone()
-                chatmode = row["chatmode"]
+        chatmode = channels_json[message.channel.id]
+        go_to_chat = ["давай поболтаем"]
+        end_chat = ["хватит"]
                 
-                go_to_chat = ['давай поболтаем']
-                end_chat = ['хватит']
-                
-                if chatmode == 0:
-                    if message.content.lower() in go_to_chat:
-                        await cursor.execute(f"UPDATE channels SET chatmode = 1 WHERE id = '{message.channel.id}'")
-                        await message.reply('Отлично! Если вам надоест, напишите слово "Хватит"')
-                    else:
-                        await message.reply(AssistentMessage(message.content, lang=l))
-                elif chatmode == 1:
-                    if message.content.lower() in end_chat:
-                        await cursor.execute(f"UPDATE channels SET chatmode = 0 WHERE id = '{message.channel.id}'")
-                        await message.reply('Надоело? Если ещё захотите пообщаться, напишите "Давай поболтаем"')
-                    else:
-                        await message.reply(textMessage(message.content, lang=l))
+        if chatmode is False:
+            if message.content.lower() in go_to_chat:
+                channels_json[message.channel.id] = True
+                await message.reply('Отлично! Если вам надоест, напишите слово "Хватит"')
+            else:
+                await message.reply(AssistentMessage(message.content, lang=l))
+        elif chatmode is True:
+            if message.content.lower() in end_chat:
+                channels_json[message.channel.id] = False
+                await message.reply('Надоело? Если ещё захотите пообщаться, напишите "Давай поболтаем"')
+            else:
+                await message.reply(textMessage(message.content, lang=l))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

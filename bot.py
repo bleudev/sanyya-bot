@@ -65,7 +65,10 @@ def getRussianAlphabet() -> list:
 
 class SanyyaBot(discord.Client):
     def __init__(self) -> None:
-        super().__init__(intents=discord.Intents.all())
+        intents = discord.Intents.default()
+        intents.message_content = True
+        
+        super().__init__(intents=intents)
         self.tree = app_commands.CommandTree(self)
         self.allowed_mentions = discord.AllowedMentions(everyone=False, users=False, roles=False, replied_user=False)
     

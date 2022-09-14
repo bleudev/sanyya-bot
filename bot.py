@@ -34,6 +34,31 @@ def textMessage(s: str, lang="ru") -> str:
     else:
         return i_dont_understands[lang]
 
+def AssistentMessage(s: str, lang="ru") -> str:
+    # $u - Обновления
+
+    raw = ""
+    
+    for i in s.lower():
+        if not i in [".", ",", "?", "!"]:
+            raw += i
+    
+    commands = {
+        ["что в тебе обновилось", "обновления"]: "$u"
+    }
+    
+    command = ""
+
+    for texts, com in commands:
+        if raw in texts:
+            command = com
+            break
+    
+    if command == "$u":
+        return "Вчера я получил обновление. Хочешь посмотреть?"
+    else:
+        return "Неизвестная команда"
+
 def getRussianAlphabet() -> list:
     return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']
 
@@ -245,10 +270,14 @@ async def on_message(message: discord.Message):
                 if chatmode == 0:
                     if message.content.lower() in go_to_chat:
                         await cursor.execute(f"UPDATE channels SET chatmode = 1 WHERE id = '{message.channel.id}'")
-                    await message.reply("Ассистент!")
+                        await message.reply('Отлично! Если вам надоест, напишите слово "Хватит"')
+                    else:
+                        await message.reply(AssistentMessage(message.content, lang=l))
                 elif chatmode == 1:
                     if message.content.lower() in end_chat:
                         await cursor.execute(f"UPDATE channels SET chatmode = 0 WHERE id = '{message.channel.id}'")
-                    await message.reply(textMessage(message.content, lang=l))
+                        await message.reply('Надоело? Если ещё захотите пообщаться, напишите "Давай поболтаем"')
+                    else:
+                        await message.reply(textMessage(message.content, lang=l))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

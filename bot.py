@@ -1,5 +1,6 @@
 import discord, os
 from discord import app_commands, ui
+from discord import MessageType as mt
 from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
 
@@ -190,6 +191,11 @@ async def on_message(message: discord.Message):
         return
 
     if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
+        message_types = (mt.reply, mt.default, mt.thread_starter_message)
+
+        if not message.type in message_types:
+            return
+
         async with message.channel.typing():
             sleep(0.3)
 
@@ -203,7 +209,7 @@ async def on_message(message: discord.Message):
         chatmode = channels_json[message.channel.id]
         go_to_chat = ["давай поболтаем"]
         end_chat = ["хватит"]
-                
+        
         if chatmode is False:
             if message.content.lower() in go_to_chat:
                 channels_json[message.channel.id] = True

@@ -43,9 +43,9 @@ def AssistentMessage(s: str, lang="ru") -> str:
         if not i in [".", ",", "?", "!"]:
             raw += i
     
-    commands = {
-        ["что в тебе обновилось", "обновления"]: "$u"
-    }
+    commands = [
+        (["что в тебе обновилось", "обновления"], "$u")
+    ]
     
     command = ""
 

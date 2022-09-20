@@ -189,7 +189,7 @@ async def on_ready():
     
     for guild in guilds:
         member: discord.Member = guild.get_member(bot.user.id)
-        member.edit(nick="Sanyya | [A]")
+        await member.edit(nick="Sanyya | [A]")
     
     activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
     await bot.change_presence(activity=activity, status="dnd")

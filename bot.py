@@ -3,6 +3,7 @@ from discord import app_commands, ui
 from discord import MessageType as mt
 from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
+from random import randint
 
 channels = [1008038030042484918, 1008080816166948865]
 
@@ -13,7 +14,7 @@ channels_json = {i: False for i in channels}
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
 
 DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
-SESSION_ID = 'SanyyaBotAI'
+SESSION_ID =  f"discord_session_{randint(1, 1000000)}"
 
 endl = "\n"
 i_dont_understands = {
@@ -179,6 +180,17 @@ async def get_answer(interaction: discord.Interaction, message: discord.Message)
 
 @bot.event
 async def on_ready():
+    chans = channels
+    guilds = []
+    
+    for i in chans:
+        ch: discord.TextChannel = bot.get_channel(i)
+        guilds.append(ch.guild)
+    
+    for guild in guilds:
+        member: discord.Member = guild.get_member(bot.user.id)
+        member.edit(nick="Sanyya | [A]")
+    
     activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
     await bot.change_presence(activity=activity, status="dnd")
 
@@ -214,12 +226,16 @@ async def on_message(message: discord.Message):
             if message.content.lower() in go_to_chat:
                 channels_json[message.channel.id] = True
                 await message.reply('Отлично! Если вам надоест, напишите слово "Хватит"')
+                member = message.guild.get_member(bot.user.id)
+                await member.edit(nick="Sanyya | [C]")
             else:
                 await message.reply(AssistentMessage(message.content, lang=l))
         elif chatmode is True:
             if message.content.lower() in end_chat:
                 channels_json[message.channel.id] = False
                 await message.reply('Надоело? Если ещё захотите пообщаться, напишите "Давай поболтаем"')
+                member = message.guild.get_member(bot.user.id)
+                await member.edit(nick="Sanyya | [A]")
             else:
                 await message.reply(textMessage(message.content, lang=l))
 

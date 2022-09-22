@@ -9,8 +9,8 @@ def date(day: int, month: int, year: int):
 
 
 class UpdateJson(TypedDict):
-    date: d,
-    changelog: str,
+    date: d
+    changelog: str
     date_str: str
 
 

@@ -11,9 +11,14 @@ channels_json = {i: False for i in channels}
 
 
 # Dialogflow settings
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
+def change_default_key():
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
+
+def change_assistent_key():
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key_assistent.json'
 
 DIALOGFLOW_PROJECT_ID = 'small-talk-sanyya-xvlg'
+DIALOGFLOW_ASSISTENT_PROJECT_ID = 'sanyya-assistent-cqjy'
 SESSION_ID =  f"discord_session_{randint(1, 1000000)}"
 
 endl = "\n"
@@ -39,28 +44,23 @@ def textMessage(s: str, lang="ru") -> str:
 
 def AssistentMessage(s: str, lang="ru") -> str:
     # $u - Обновления
+    change_assistent_key()
 
-    raw = ""
-    
-    for i in s.lower():
-        if not i in [".", ",", "?", "!"]:
-            raw += i
-    
-    commands = [
-        (["что в тебе обновилось", "обновления"], "$u")
-    ]
-    
-    command = ""
+    session_client = dialogflow.SessionsClient()
+    session = session_client.session_path(DIALOGFLOW_ASSISTENT_PROJECT_ID, SESSION_ID)
+    text_input = dialogflow.types.TextInput(text=s,
+                                            language_code=lang)
+    query_input = dialogflow.types.QueryInput(text=text_input)
 
-    for texts, com in commands:
-        if raw in texts:
-            command = com
-            break
+    response = session_client.detect_intent(session=session, query_input=query_input)
+    command = str(response.query_result.fulfillment_text)
+    
+    change_default_key()
     
     if command == "$u":
         return "Вчера я получил обновление. Хочешь посмотреть?"
     else:
-        return "Неизвестная команда"
+        return command
 
 def getRussianAlphabet() -> list:
     return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']

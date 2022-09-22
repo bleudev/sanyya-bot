@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sanyya-assistent-cqjy",
+  "private_key_id": "c5ee9bedd1f97fa4e9d1e1d17a6a0f6b90b1acb7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuUoKJsTopfLse\nwd+hUVJCUP06M2bzy0YjtWUsWW0pBl2aQnUjXTZjbdoKeKjxRy2U8G49bjCjPJp9\nSiBT1OMC2q2M8USyLmH6ZuIZBrEc8daN6ZIqeCBoGebZ7yURMPXsGPU896Kf8jvz\nZ1UZbdS8YbjNVenSJ4TZPQIw35tWQXeh2MCYNApzSqp5zUPTN2ATWtzLsv64gGtD\n6btFfzX17qoPro94kzjyNcXvN0XHmJL+21CCx79n3O8jTRag1RX5/qm6I+Y5VWuz\notpyejsr0NXI9nIe3Tzea2ormrTd1VYAbwZ9sCEIxSwse0f0xMerACNMO8z+9tQp\nOdCOMVMDAgMBAAECggEABC6olm3Ga8kOouNF3pSZOPbBIeH/01OKKusm3T8xVkL3\n1e6dlCv1VRdanCu0P0L/k0uIFDiOOYGyYdUjHL/Gc9gT7TC7VDG2r2Tugb6JBfJr\nZ7DgjTJKnL9vrBoyX8zhPuPZEQ25PMXOrb1J67ft2wMr2t6ieHny6aoEC8YhmkUi\nWIZ9+RGorvokBovKOIY0GbLyHW1XqReuCaeikdNvukX/fqwot+I1GlB7mrpNGdiZ\ndf1CSN4+opf6y5I3itSVSPeSXg0UQVJZ+arZ0ydZ1vCjdDufUOS4Qfhwwb1ThB5g\nT5AbrcGnR/F8QT9a61lDAmgE4sSzQuUk51D80Jca0QKBgQDcskxpnhN4eKXrDx02\ninatowQL+fpREKLzzFB7Cz67jfhtInZiZj3xdAbT0R61PwZVpizeXcjHa/KlCsPd\n0rsA88q0mGpBOn3U0sNwIGcujvK3x9X8B6dSsm9NTI9Lb49Qu4ge8NeI355v3Z4b\nPg5RFn1xMFqL8Ax/u2/iN9T5eQKBgQDKNSapbt8av7umZOkhJpnYZAMM5EMchDUY\nKmxU4mKGZKRFZHTllrbO0OgiYpoxiKyeuQFUHI1LwHEXbMOLq55upVnkscxfaHb9\n1DOQor94yIhphHO7vvV4Mn4HkUJ0wWGTMyQjU1Fzl8uUu7An/GwpPhrvTszJ8X0B\nQ4dfWH2NWwKBgAIij26uIs4VjLVbbhLq//7qBs3+2xcRrCHjphuqni6+TtrvbGnD\nR3IghzhhW4SxWWRWuTRlf92+A5jpI7/vm/OEaD+bAdwjrrfyWgWpqpXeuCZi/oTz\npgC8zSrYRMKcD6zeQ5DZD5y5XRUD9dWZohXSu9/ucdHMvrI1o/1yQNMxAoGBAIUz\n5jgPFWFllJPUPc7cwtPNbkT7yUnrvZ4htCNmzkiB28TqnCbx1ZMAAytDkRe4VR5p\n+PoTpPCV4OnxeA92CnQQ8Nq6VUs0Yc5sD1vkGgXS9CmuWx7+eG2ptWP+yKxpB4IU\nWmX66Nkg0bc0vKJaolW41711R2pwbkx60553iJ2pAoGAN2MukPsgc694xKUc1hwL\nNhsQcE5E9fWdWMfsKrra22r6k6VNLuoIIC1PTRnIRlb5N4RhCpfnKrFbbgfFKCKb\n07dwmf3F/EnLcXBU3lpOcwhNrlEpLZ39v5t6Kzh05Vq+GCeGDQ8Nev7QzxwbWlVA\nlcPA7bdYITTyocnSG9qhJ/U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "assistent-service@sanyya-assistent-cqjy.iam.gserviceaccount.com",
+  "client_id": "102527259068464108951",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/assistent-service%40sanyya-assistent-cqjy.iam.gserviceaccount.com"
+}

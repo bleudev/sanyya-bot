@@ -4,6 +4,7 @@ from discord import MessageType as mt
 from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
 from random import randint
+from updates import json as update_json
 
 channels = [1008038030042484918, 1008080816166948865]
 
@@ -42,8 +43,10 @@ def textMessage(s: str, lang="ru") -> str:
     else:
         return i_dont_understands[lang]
 
-def AssistentMessage(s: str, lang="ru") -> str:
+async def AssistentMessage(mes: discord.Message, lang="ru"):
     # $u - Обновления
+    s = mes.content
+
     change_assistent_key()
 
     session_client = dialogflow.SessionsClient()
@@ -54,13 +57,19 @@ def AssistentMessage(s: str, lang="ru") -> str:
 
     response = session_client.detect_intent(session=session, query_input=query_input)
     command = str(response.query_result.fulfillment_text)
-    
+
     change_default_key()
     
     if command == "$u":
-        return "Вчера я получил обновление. Хочешь посмотреть?"
+        await mes.reply("Вчера я получил обновление. Хочешь посмотреть?")
+    elif command == "$u-yes":
+        last_update = update_json[0]
+        
+        embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
+        embed.add_field(name="Список изменений", value=last_update["changelog"])
+        await mes.reply(embed=embed)
     else:
-        return command
+        await mes.reply(command)
 
 def getRussianAlphabet() -> list:
     return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']
@@ -229,7 +238,7 @@ async def on_message(message: discord.Message):
                 member = message.guild.get_member(bot.user.id)
                 await member.edit(nick="Sanyya | [C]")
             else:
-                await message.reply(AssistentMessage(message.content, lang=l))
+                await AssistentMessage(message, lang=l)
         elif chatmode is True:
             if message.content.lower() in end_chat:
                 channels_json[message.channel.id] = False

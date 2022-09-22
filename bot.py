@@ -5,6 +5,7 @@ from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
 from random import randint
 from updates import json as update_json
+from datetime import date
 
 channels = [1008038030042484918, 1008080816166948865]
 
@@ -61,7 +62,25 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
     change_default_key()
     
     if command == "$u":
-        await mes.reply("Вчера я получил обновление. Хочешь посмотреть?")
+        last_update = update_json[0]
+        update_date = last_update["date"].toordinal()
+        now_date = date.today().toordinal()
+        days_ago = now_date - update_date
+        
+        data_day_strs = [
+            ("Сегодня", 0),
+            ("Вчера", 1),
+            ("Позавчера", 2)
+        ]
+        
+        _day_str = ""
+        
+        for day_str, ago in data_day_strs:
+            if days_ago == ago:
+                _day_str = day_str
+                break
+        
+        await mes.reply(f"{_day_str} я получил обновление. Хочешь посмотреть?")
     elif command == "$u-yes":
         last_update = update_json[0]
         

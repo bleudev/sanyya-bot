@@ -65,7 +65,7 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
     if command == "$u":
         last_update = update_json[0]
         update_date = last_update["date"].toordinal()
-        now_date = date.today().toordinal()
+        now_date = datetime.now(timezone('Europe/Moscow')).date().toordinal()
         days_ago = now_date - update_date
         
         data_day_strs = [
@@ -109,10 +109,10 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         tz = timezone('Europe/Moscow')
 
         now_datetime = datetime.now(tz)
-        format = "%d %s %d %d:%d"
+        format_string = "%d %s %d %d:%d"
         month_str = month_strs[now_datetime.month]
         
-        now_str = format % (now_datetime.day,
+        now_str = format_string % (now_datetime.day,
                             month_str,
                             now_datetime.year,
                             now_datetime.hour,

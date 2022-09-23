@@ -87,6 +87,8 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
         embed.add_field(name="Список изменений", value=last_update["changelog"])
         await mes.reply(embed=embed)
+    elif command == "$u-no":
+        await mes.reply("Ну не хочешь, как хочешь")
     else:
         await mes.reply(command)
 

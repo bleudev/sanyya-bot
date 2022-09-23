@@ -5,7 +5,8 @@ from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
 from random import randint
 from updates import json as update_json
-from datetime import date
+from datetime import date, datetime, tzinfo
+from pytz import timezone
 
 channels = [1008038030042484918, 1008080816166948865]
 
@@ -88,7 +89,17 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         embed.add_field(name="Список изменений", value=last_update["changelog"])
         await mes.reply(embed=embed)
     elif command == "$u-no":
-        await mes.reply("Ну не хочешь, как хочешь")
+        await mes.reply("Ну, как хочешь")
+    elif command == "$t":
+        tz = timezone('Europe/Moscow')
+
+        now_datetime = datetime.now(tz)
+        now_str = now_datetime.isoformat(sep=" ", timespec="DD-MM-YYYY HH:MM")
+        
+        embed = discord.Embed(color=discord.Color.purple(), title=now_str)
+        embed.set_footer(text="Время по МСК")
+        
+        await mes.reply(embed=embed)
     else:
         await mes.reply(command)
 

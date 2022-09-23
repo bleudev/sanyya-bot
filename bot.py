@@ -45,6 +45,13 @@ def textMessage(s: str, lang="ru") -> str:
     else:
         return i_dont_understands[lang]
 
+async def get_update_by_its_id(uid: int, message: discord.Message):
+        last_update = update_json[uid]
+        
+        embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
+        embed.add_field(name="Список изменений", value=last_update["changelog"])
+        await message.reply(embed=embed)
+
 async def AssistentMessage(mes: discord.Message, lang="ru"):
     # $u - Обновления
     s = mes.content
@@ -83,13 +90,11 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         
         await mes.reply(f"{_day_str} я получил обновление. Хочешь посмотреть?")
     elif command == "$u-yes":
-        last_update = update_json[0]
-        
-        embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
-        embed.add_field(name="Список изменений", value=last_update["changelog"])
-        await mes.reply(embed=embed)
+        await get_update_by_its_id(0, mes)
     elif command == "$u-no":
         await mes.reply("Ну, как хочешь")
+    elif command == "$u2":
+        await get_update_by_its_id(1, mes)
     elif command == "$t":
         month_strs = {
             1: "Января",

@@ -91,10 +91,32 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
     elif command == "$u-no":
         await mes.reply("Ну, как хочешь")
     elif command == "$t":
+        month_strs = {
+            1: "Января",
+            2: "Февраля",
+            3: "Марта",
+            4: "Апреля",
+            5: "Мая",
+            6: "Июня",
+            7: "Июля",
+            8: "Августа",
+            9: "Сентября",
+            10: "Октября",
+            11: "Ноября",
+            12: "Декабря"
+        }
+
         tz = timezone('Europe/Moscow')
 
         now_datetime = datetime.now(tz)
-        now_str = now_datetime.isoformat(sep=" ", timespec="DD-MM-YYYY HH:MM")
+        format = "%d %s %d %d:%d"
+        month_str = month_strs[now_datetime.month]
+        
+        now_str = format % (now_datetime.day,
+                            month_str,
+                            now_datetime.year,
+                            now_datetime.hour,
+                            now_datetime.minute)
         
         embed = discord.Embed(color=discord.Color.purple(), title=now_str)
         embed.set_footer(text="Время по МСК")

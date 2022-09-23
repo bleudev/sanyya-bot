@@ -1,3 +1,4 @@
 discord.py
 google-api-core
 google-cloud-dialogflow
+pytz

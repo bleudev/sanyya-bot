@@ -272,6 +272,12 @@ async def on_guild_join(guild):
 
 
 @bot.event
+async def on_guild_remove(guild):
+    activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
+    await bot.change_presence(activity=activity, status="dnd")
+
+
+@bot.event
 async def on_message(message: discord.Message):
     if message.author.bot:
         return

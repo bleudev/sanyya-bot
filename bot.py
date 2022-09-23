@@ -1,5 +1,6 @@
 import discord, os
 from discord import app_commands, ui
+from discord.ext.tasks import loop
 from discord import MessageType as mt
 from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
@@ -263,6 +264,17 @@ async def on_ready():
     await bot.change_presence(activity=activity, status="dnd")
 
     print("Hi?")
+
+
+@loop(seconds=15)
+async def reconnect_loop():
+    activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
+    await bot.change_presence(activity=activity, status="dnd")
+
+
+@reconnect_loop.before_loop
+async def reconnect_before():
+    await bot.wait_until_ready()
 
 
 @bot.event

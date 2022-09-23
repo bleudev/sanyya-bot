@@ -47,11 +47,11 @@ def textMessage(s: str, lang="ru") -> str:
         return i_dont_understands[lang]
 
 async def get_update_by_its_id(uid: int, message: discord.Message):
-        last_update = update_json[uid]
-        
-        embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
-        embed.add_field(name="Список изменений", value=last_update["changelog"])
-        await message.reply(embed=embed)
+    last_update = update_json[uid]
+
+    embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
+    embed.add_field(name="Список изменений", value=last_update["changelog"])
+    await message.reply(embed=embed)
 
 async def AssistentMessage(mes: discord.Message, lang="ru"):
     # $u - Обновления

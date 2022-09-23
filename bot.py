@@ -265,16 +265,10 @@ async def on_ready():
 
     print("Hi?")
 
-
-@loop(seconds=15)
-async def reconnect_loop():
+@bot.event
+async def on_guild_join(guild):
     activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
     await bot.change_presence(activity=activity, status="dnd")
-
-
-@reconnect_loop.before_loop
-async def reconnect_before():
-    await bot.wait_until_ready()
 
 
 @bot.event

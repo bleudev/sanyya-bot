@@ -33,6 +33,8 @@ i_dont_understands = {
 
 
 def textMessage(s: str, lang="ru") -> str:
+    change_default_key()
+    
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
     text_input = dialogflow.types.TextInput(text=s,

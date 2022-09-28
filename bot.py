@@ -299,7 +299,7 @@ async def on_message(message: discord.Message):
                 break
         
         chatmode = channels_json[message.channel.id]
-        go_to_chat = ["давай поболтаем"]
+        go_to_chat = ["давай поболтаем", "давай поговорим", "го поболтаем", "го поговорим"]
         end_chat = ["хватит"]
         
         if chatmode is False:

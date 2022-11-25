@@ -9,7 +9,7 @@ from updates import json as update_json
 from datetime import date, datetime, tzinfo
 from pytz import timezone
 
-channels = [1008038030042484918, 1008080816166948865]
+channels = [1045559879772934215]
 
 channels_json = {i: False for i in channels}
 

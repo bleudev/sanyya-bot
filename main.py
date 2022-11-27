@@ -2,11 +2,14 @@ import discord, os
 from discord import app_commands, ui
 from discord.ext.tasks import loop
 from discord import MessageType as mt
+
+from google.api_core.protobuf_helpers import get_messages
 from google.cloud import dialogflow_v2 as dialogflow
+
 from time import sleep
 from random import randint
 from updates import json as update_json
-from datetime import date, datetime, tzinfo
+from datetime import datetime
 from pytz import timezone
 
 channels = [1045559879772934215]
@@ -152,132 +155,15 @@ class SanyyaBot(discord.Client):
 bot = SanyyaBot()
 
 
-@bot.tree.command(description="Информация про бота")
-async def инфо(interaction: discord.Interaction):
-    await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f", ephemeral=True)
-
-
-@bot.tree.command(description="Сообщить о баге")
-async def баг(interaction: discord.Interaction):
-    class BugReportModal(ui.Modal, title='Сообщить о баге'):
-        your_message = ui.TextInput(label="Ваше сообщение",
-                               style=discord.TextStyle.paragraph,
-                               custom_id="your_message",
-                               placeholder="Привет!")
-
-        bot_message = ui.TextInput(label="Ответ бота",
-                               style=discord.TextStyle.paragraph,
-                               custom_id="bot_message",
-                               placeholder="Приветик! Как дела?")
-        
-        additional_info = ui.TextInput(label="Дополнительная информация",
-                                       style=discord.TextStyle.long,
-                                       custom_id="additional_info",
-                                       placeholder='Должен отвечать "Привет!"',
-                                       required=False,
-                                       min_length=10)
-
-        profile_for_connection = ui.TextInput(label="Профиль для связи",
-                                              style=discord.TextStyle.short,
-                                              custom_id="profile_for_connection",
-                                              placeholder="name#1234",
-                                              required=False,
-                                              min_length=5,
-                                              max_length=100)
-        
-        async def on_submit(self, interaction: discord.Interaction):
-            channel = bot.get_channel(1018276325703811222)
-            
-            message = str(self.your_message) + (endl * 2) + str(self.bot_message)
-
-            mes = ""
-
-            if self.profile_for_connection.value:
-                mes += "Профиль для связи: " + str(self.profile_for_connection) + (endl * 2)
-            
-            if self.additional_info.value:
-                mes += "Дополнительная информация: " + str(self.additional_info) + (endl * 2)
-            
-            mes += message
-            
-            await channel.send(mes)
-            
-            await interaction.response.send_message('Спасибо!', ephemeral=True)
-    
-    await interaction.response.send_modal(BugReportModal())
-
-
-@bot.tree.command(description="Предложить идею")
-async def идея(interaction: discord.Interaction):
-    class IdeaModal(ui.Modal, title='Предложить идею'):
-        your_message = ui.TextInput(label="Ваше сообщение",
-                               style=discord.TextStyle.paragraph,
-                               custom_id="your_message",
-                               placeholder="Привет!")
-
-        bot_message = ui.TextInput(label="Ответ бота",
-                               style=discord.TextStyle.paragraph,
-                               custom_id="bot_message",
-                               placeholder="Приветик! Как дела?")
-
-        profile_for_connection = ui.TextInput(label="Профиль для связи",
-                                              style=discord.TextStyle.short,
-                                              custom_id="profile_for_connection",
-                                              placeholder="name#1234",
-                                              required=False,
-                                              min_length=5,
-                                              max_length=100)
-        
-        async def on_submit(self, interaction: discord.Interaction):
-            channel = bot.get_channel(1018508847750586448)
-            
-            message = str(self.your_message) + (endl * 2) + str(self.bot_message)
-
-            mes = message
-
-            if self.profile_for_connection.value:
-                mes = "Профиль для связи: " + str(self.profile_for_connection) + (endl * 2) + str(message)
-            
-            await channel.send(mes)
-            
-            await interaction.response.send_message('Спасибо!', ephemeral=True)
-    
-    await interaction.response.send_modal(IdeaModal())
-
-
-@bot.tree.context_menu(name="Получить ответ")
-async def get_answer(interaction: discord.Interaction, message: discord.Message):
-    await interaction.response.send_message(textMessage(message.content), ephemeral=True)
-
 @bot.event
 async def on_ready():
-    chans = channels
-    guilds = []
-    
-    for i in chans:
-        ch: discord.TextChannel = bot.get_channel(i)
-        guilds.append(ch.guild)
-    
+    guilds = bot.guilds
+
     for guild in guilds:
         member: discord.Member = guild.get_member(bot.user.id)
         await member.edit(nick="Sanyya | [A]")
-    
-    activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
-    await bot.change_presence(activity=activity, status="dnd")
 
     print("Hi?")
-
-@bot.event
-async def on_guild_join(guild):
-    activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
-    await bot.change_presence(activity=activity, status="dnd")
-
-
-@bot.event
-async def on_guild_remove(guild):
-    activity = discord.Activity(name=f"{len(bot.guilds)} серверов с ботом", type=discord.ActivityType.watching)
-    await bot.change_presence(activity=activity, status="dnd")
-
 
 @bot.event
 async def on_message(message: discord.Message):

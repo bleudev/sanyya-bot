@@ -12,7 +12,7 @@ from datetime import datetime
 from pytz import timezone
 
 from updates import json as update_json
-from search import search
+from search import searchh
 
 channels = [1045559879772934215, 1046835447592136775]
 
@@ -268,7 +268,7 @@ async def on_message(message: discord.Message):
             sleep(0.3)
         
         if message.content.startswith('!exs'):
-            await message.reply(search(message.content.replace('!exs', ''))[:100])
+            await message.reply(searchh(message.content.replace('!exs', '')))
             return
 
         l = "en"

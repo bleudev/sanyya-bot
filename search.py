@@ -4,7 +4,7 @@ from googlesearch import search
 from requests import get
 
 def searchh(q: str) -> str:
-    url = search(q, stop=1, lang='ru')[0]
+    url = [i for i in search(q, stop=1, lang='ru') ][0]
     data = get(url).text
     soup = BeautifulSoup(data)
     

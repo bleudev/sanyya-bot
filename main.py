@@ -268,7 +268,7 @@ async def on_message(message: discord.Message):
             sleep(0.3)
         
         if message.content.startswith('!exs'):
-            await message.reply(searchh(message.content.replace('!exs', '')))
+            await message.reply(searchh(message.content.replace('!exs ', '')))
             return
 
         l = "en"

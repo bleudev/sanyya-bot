@@ -225,7 +225,9 @@ async def идея(interaction: discord.Interaction):
         description = ui.TextInput(label="Описание идеи",
                                style=discord.TextStyle.paragraph,
                                custom_id="des",
-                               placeholder="Добавить команду /идея. С её помощью можно предложить идею при помощи модуля, который будет раскрываться на весь экран.")
+                               placeholder="Добавить команду /идея. С её помощью можно предложить идею.",
+                               min_length=1,
+                               max_length=2000)
 
         profile_for_connection = ui.TextInput(label="Профиль для связи",
                                               style=discord.TextStyle.short,

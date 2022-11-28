@@ -14,7 +14,7 @@ from pytz import timezone
 from updates import json as update_json
 from search import search
 
-channels = [1045559879772934215]
+channels = [1045559879772934215, 1046835447592136775]
 
 channels_json = {i: False for i in channels}
 

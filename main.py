@@ -266,7 +266,7 @@ async def on_message(message: discord.Message):
         async with message.channel.typing():
             sleep(0.3)
         
-        if message.content.startswith('!exs'):
+        if message.content.startswith('!exs') and message.channel.id == 1046835447592136775: # Testing
             await message.reply(searchh(message.content.replace('!exs ', '')))
             return
 

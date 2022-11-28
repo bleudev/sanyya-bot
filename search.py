@@ -13,7 +13,7 @@ endl = '\n'
 endl2 = endl * 2
 
 def searchh(q: str) -> str:
-    url = [i for i in search(q, stop=1, lang='ru') ][0]
+    url = [i for i in search(q, stop=1, lang='ru', country='russia', pause=0) ][0]
     data = get(url).text
     soup = BeautifulSoup(data)
     

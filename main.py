@@ -165,6 +165,90 @@ async def on_ready():
 
     print("Hi?")
 
+@bot.tree.command(description="Информация про бота")
+async def инфо(interaction: discord.Interaction):
+    await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f", ephemeral=True)
+
+
+@bot.tree.command(description="Сообщить о баге")
+async def баг(interaction: discord.Interaction):
+    class BugReportModal(ui.Modal, title='Сообщить о баге'):
+        your_message = ui.TextInput(label="Ваше сообщение",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="your_message",
+                               placeholder="Привет!")
+
+        bot_message = ui.TextInput(label="Ответ бота",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="bot_message",
+                               placeholder="Приветик! Как дела?")
+        
+        additional_info = ui.TextInput(label="Дополнительная информация",
+                                       style=discord.TextStyle.long,
+                                       custom_id="additional_info",
+                                       placeholder='Должен отвечать "Привет!"',
+                                       required=False,
+                                       min_length=10)
+
+        profile_for_connection = ui.TextInput(label="Профиль для связи",
+                                              style=discord.TextStyle.short,
+                                              custom_id="profile_for_connection",
+                                              placeholder="name#1234",
+                                              required=False,
+                                              min_length=5,
+                                              max_length=100)
+        
+        async def on_submit(self, interaction: discord.Interaction):
+            channel = bot.get_channel(1045560038149853235)
+            
+            message = str(self.your_message) + (endl * 2) + str(self.bot_message)
+
+            mes = ""
+
+            if self.profile_for_connection.value:
+                mes += "Профиль для связи: " + str(self.profile_for_connection) + (endl * 2)
+            
+            if self.additional_info.value:
+                mes += "Дополнительная информация: " + str(self.additional_info) + (endl * 2)
+            
+            mes += message
+            
+            await channel.send(mes)
+            
+            await interaction.response.send_message('Спасибо!', ephemeral=True)
+    
+    await interaction.response.send_modal(BugReportModal())
+
+@bot.tree.command(description="Предложить идею")
+async def идея(interaction: discord.Interaction):
+    class IdeaModal(ui.Modal, title='Предложить идею'):
+        description = ui.TextInput(label="Описание идеи",
+                               style=discord.TextStyle.paragraph,
+                               custom_id="des",
+                               placeholder="Добавить команду /идея. С её помощью можно предложить идею при помощи модуля, который будет раскрываться на весь экран.")
+
+        profile_for_connection = ui.TextInput(label="Профиль для связи",
+                                              style=discord.TextStyle.short,
+                                              custom_id="profile_for_connection",
+                                              placeholder="name#1234",
+                                              required=False,
+                                              min_length=5,
+                                              max_length=100)
+        
+        async def on_submit(self, interaction: discord.Interaction):
+            channel = bot.get_channel(1045560087063830558)
+            
+            mes = str(self.description)
+
+            if self.profile_for_connection.value:
+                mes += (endl * 2) + "Профиль для связи: " + str(self.profile_for_connection)
+            
+            await channel.send(mes)
+            
+            await interaction.response.send_message('Спасибо!', ephemeral=True)
+    
+    await interaction.response.send_modal(IdeaModal())
+
 @bot.event
 async def on_message(message: discord.Message):
     if message.author.bot:

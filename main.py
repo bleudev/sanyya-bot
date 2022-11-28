@@ -255,14 +255,13 @@ async def идея(interaction: discord.Interaction):
 
 @bot.event
 async def on_message(message: discord.Message):
-    if message.author.bot:
-        return
+    if message.author.bot: return
 
     if message.channel.id in channels or isinstance(message.channel, discord.DMChannel):
         message_types = (mt.reply, mt.default, mt.thread_starter_message)
 
-        if not message.type in message_types:
-            return
+        if not message.type in message_types: return
+        if message.content.startswith('.'): return
 
         async with message.channel.typing():
             sleep(0.3)

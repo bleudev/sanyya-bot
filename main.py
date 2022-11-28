@@ -8,9 +8,11 @@ from google.cloud import dialogflow_v2 as dialogflow
 
 from time import sleep
 from random import randint
-from updates import json as update_json
 from datetime import datetime
 from pytz import timezone
+
+from updates import json as update_json
+from search import search
 
 channels = [1045559879772934215]
 
@@ -264,6 +266,10 @@ async def on_message(message: discord.Message):
 
         async with message.channel.typing():
             sleep(0.3)
+        
+        if message.content.startswith('!exs'):
+            await message.reply(search(message.content.replace('!exs', ''))[:100])
+            return
 
         l = "en"
         

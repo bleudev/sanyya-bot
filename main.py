@@ -1,5 +1,5 @@
 import discord, os
-from discord import app_commands, ui
+from discord import app_commands, ui, Embed
 from discord.ext.tasks import loop
 from discord import MessageType as mt
 
@@ -267,7 +267,12 @@ async def on_message(message: discord.Message):
             sleep(0.3)
         
         if message.content.startswith('!exs') and message.channel.id == 1046835447592136775: # Testing
-            await message.reply(searchh(message.content.replace('!exs ', '')))
+            r = searchh(message.content.replace('!exs ', ''))
+            
+            if isinstance(r, Embed):
+                await message.reply(embed=r)
+            else:
+                await message.reply(r)
             return
 
         l = "en"

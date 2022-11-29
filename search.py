@@ -33,6 +33,6 @@ def searchh(q: str) -> str:
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':
         emb = Embed()
-        emb.add_field(name=soup.title.text, value=soup.body.p)
+        emb.add_field(name=soup.title.text, value=soup.body.p.get_text())
         emb.set_footer(text='Powered by Google | DSearch + Sanyya')
         return emb

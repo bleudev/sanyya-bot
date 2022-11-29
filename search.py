@@ -33,7 +33,9 @@ def searchh(q: str) -> str:
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':
         emb = Embed()
+        ipa = soup.find_all('span', {'class': 'IPA'}).source.string
         info = soup.body.p.get_text()
+        info = info.replace(ipa, '')
         
         def replace_for(string, format):
             r: str = string

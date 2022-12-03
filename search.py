@@ -29,19 +29,19 @@ def searchh(q: str) -> str:
     data = get(url).text
     soup = BeautifulSoup(data)
 
-    if host in supported_urls:
+    if host in supported_urls:  # DSearch
         return DSearch(url, soup, host)
     
+    # SEO analyze
     meta = soup.find_all('meta')
-    names = []
     descs = []
 
-    for tag in meta:
+    for tag in meta:  # Find SEO descriptions
         if 'name' in tag.attrs.keys() and tag.attrs['name'].strip().lower() in ['description', 'keywords']:
-            names.append(tag.attrs['name'].lower())
             descs.append(tag.attrs['content'])
     
-    return p(soup.title.text, endl2, str(names), endl, str(descs))
+    # Result
+    return p(soup.title.text, endl2, descs[0])
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':

@@ -55,7 +55,7 @@ def searchh(q: str) -> str:
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':
-        emb = Embed(colour=Colour.default())
+        emb = Embed(colour=Colour.from_rgb(255, 255, 255))
         ipa = soup.find_all('span', {'class': 'IPA'})[0]
         ipa.decompose()
         info = soup.body.p.get_text()

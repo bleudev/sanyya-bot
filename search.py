@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 from googlesearch import search
 from requests import get
 from urllib.parse import urlparse
-from discord import Embed
+from discord import Embed, ButtonStyle
+from discord import ui as UI
+from discord.ui import View
 
 def p(*t):
     r = ''
@@ -48,4 +50,10 @@ def DSearch(url, soup: BeautifulSoup, host) -> Embed:
         info = info.replace('[1]', '').replace('[2]', '').replace('[3]', '').replace('[4]', '').replace('[5]', '')
         emb.add_field(name=soup.title.text, value=info)
         emb.set_footer(text='Powered by Google | DSearch + Sanyya')
-        return emb
+        
+        class WikiView(View):
+            def __init__(self, *, timeout: Optional[float] = 180):
+                super().__init__(timeout=timeout)
+                self.add_item(UI.Button(style=ButtonStyle.url, url=url, label='Перейти'))
+        
+        return emb, WikiView()

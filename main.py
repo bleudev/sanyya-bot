@@ -269,7 +269,11 @@ async def on_message(message: discord.Message):
         if message.content.startswith('!exs') and message.channel.id == 1046835447592136775: # Testing
             r = searchh(message.content.replace('!exs ', ''))
             
-            if isinstance(r, Embed):
+            if isinstance(r, tuple):
+                emb = r[0]
+                view = r[1]
+                await message.reply(embed=emb, view=view)
+            elif isinstance(r, Embed):
                 await message.reply(embed=r)
             else:
                 await message.reply(r)

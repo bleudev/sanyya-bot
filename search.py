@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from googlesearch import search
 from requests import get
 from urllib.parse import urlparse
-from discord import Embed, ButtonStyle
+from discord import Embed, ButtonStyle, Colour
 from discord import ui as UI
 from discord.ui import View
 import views
@@ -43,7 +43,7 @@ def searchh(q: str) -> str:
             descs.append(tag.attrs['content'])
     
     # Result
-    emb = Embed()
+    emb = Embed(colour=Colour.purple())
     emb.add_field(name=title, value=descs[0])
     
     class UrlView(View):

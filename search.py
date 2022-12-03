@@ -47,7 +47,7 @@ def searchh(q: str) -> str:
     emb.add_field(name=title, value=descs[0])
     
     class UrlView(View):
-        def __init__(self, *, link_url, timeout: float = 180):
+        def __init__(self, link_url, timeout: float = 180):
             super().__init__(timeout=timeout)
             self.add_item(UI.Button(style=ButtonStyle.url, url=link_url, label='Перейти'))
     

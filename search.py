@@ -23,11 +23,13 @@ supported_urls = [
 
 def searchh(q: str) -> str:
     url = [i for i in search(q, stop=1, lang='ru', country='russia', pause=0) ][0]
+    
+    # Information about page
     parsed = urlparse(url)
     host = parsed.hostname
-
     data = get(url).text
     soup = BeautifulSoup(data)
+    title = soup.title.text
 
     if host in supported_urls:  # DSearch
         return DSearch(url, soup, host)
@@ -41,7 +43,10 @@ def searchh(q: str) -> str:
             descs.append(tag.attrs['content'])
     
     # Result
-    return p(soup.title.text, endl2, descs[0])
+    emb = Embed()
+    emb.add_field(name=title, value=descs[0])
+    
+    return emb
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':

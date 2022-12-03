@@ -41,7 +41,7 @@ def searchh(q: str) -> str:
             names.append(tag.attrs['name'].lower())
             descs.append(tag.attrs['content'])
     
-    return p(soup.title.text, endl2, names, endl, descs)
+    return p(soup.title.text, endl2, str(names), endl, str(descs))
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':

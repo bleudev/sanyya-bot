@@ -46,7 +46,12 @@ def searchh(q: str) -> str:
     emb = Embed()
     emb.add_field(name=title, value=descs[0])
     
-    return emb
+    class UrlView(View):
+        def __init__(self, *, link_url, timeout: float = 180):
+            super().__init__(timeout=timeout)
+            self.add_item(UI.Button(style=ButtonStyle.url, url=link_url, label='Перейти'))
+    
+    return emb, UrlView(url)
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':

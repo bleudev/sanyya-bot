@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from discord import Embed, ButtonStyle
 from discord import ui as UI
 from discord.ui import View
+import views
 
 def p(*t):
     r = ''
@@ -48,7 +49,9 @@ def DSearch(url, soup: BeautifulSoup, host) -> Embed:
         info = replace_for(info, '[%d]')
         
         info = info.replace('[1]', '').replace('[2]', '').replace('[3]', '').replace('[4]', '').replace('[5]', '')
-        emb.add_field(name=soup.title.text, value=info)
+        title = soup.title.text + views.emoji.beta
+        
+        emb.add_field(name=title, value=info)
         emb.set_footer(text='Powered by Google | DSearch + Sanyya')
         
         class WikiView(View):

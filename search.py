@@ -49,7 +49,7 @@ def DSearch(url, soup: BeautifulSoup, host) -> Embed:
         info = replace_for(info, '[%d]')
         
         info = info.replace('[1]', '').replace('[2]', '').replace('[3]', '').replace('[4]', '').replace('[5]', '')
-        title = soup.title.text + views.emoji.beta
+        title = soup.title.text + '  ' + views.emoji.beta
         
         emb.add_field(name=title, value=info)
         emb.set_footer(text='Powered by Google | DSearch + Sanyya')

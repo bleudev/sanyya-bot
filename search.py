@@ -52,7 +52,7 @@ def DSearch(url, soup: BeautifulSoup, host) -> Embed:
         emb.set_footer(text='Powered by Google | DSearch + Sanyya')
         
         class WikiView(View):
-            def __init__(self, *, timeout: Optional[float] = 180):
+            def __init__(self, *, timeout: float = 180):
                 super().__init__(timeout=timeout)
                 self.add_item(UI.Button(style=ButtonStyle.url, url=url, label='Перейти'))
         

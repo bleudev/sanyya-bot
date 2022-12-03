@@ -31,7 +31,17 @@ def searchh(q: str) -> str:
 
     if host in supported_urls:
         return DSearch(url, soup, host)
-    return p(soup.title.text, endl2, url, endl, host)
+    
+    meta = soup.find_all('meta')
+    names = []
+    descs = []
+
+    for tag in meta:
+        if 'name' in tag.attrs.keys() and tag.attrs['name'].strip().lower() in ['description', 'keywords']:
+            names.append(tag.attrs['name'].lower())
+            descs.append(tag.attrs['content'])
+    
+    return p(soup.title.text, endl2, names, endl, descs)
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':

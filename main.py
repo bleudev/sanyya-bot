@@ -82,7 +82,7 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
 
     change_default_key()
     
-    if command == "$u":
+    if command == "u":
         last_update = update_json[0]
         update_date = last_update["date"].toordinal()
         now_date = datetime.now(timezone('Europe/Moscow')).date().toordinal()
@@ -103,13 +103,13 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
                 break
         
         await mes.reply(f"{_day_str} я получил обновление. Хочешь посмотреть?")
-    elif command == "$u-yes":
+    elif command == "u-yes":
         await get_update_by_its_id(0, mes)
-    elif command == "$u-no":
+    elif command == "u-no":
         await mes.reply("Ну, как хочешь")
-    elif command == "$u2":
+    elif command == "u2":
         await get_update_by_its_id(1, mes)
-    elif command == "$t":
+    elif command == "t":
         month_strs = {
             1: "Января",
             2: "Февраля",

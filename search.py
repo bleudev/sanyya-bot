@@ -44,7 +44,11 @@ def searchh(q: str) -> str:
     
     # Result
     emb = Embed(colour=Colour.purple())
-    emb.add_field(name=title, value=descs[0])
+    
+    try:
+        emb.add_field(name=title, value=descs[0])
+    except IndexError:
+        emb.add_field(name=title, value='No description')
     
     class UrlView(View):
         def __init__(self, link_url, timeout: float = 180):

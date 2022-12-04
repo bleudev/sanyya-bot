@@ -118,7 +118,8 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
             'Киев': 'Europe/Kiev',
             'Калининград': 'Europe/Kaliningrad',
             'Лондон': 'Europe/London',
-            'Минск': 'Europe/Minsk'
+            'Минск': 'Europe/Minsk',
+            'Владивосток': 'Asia/Vladivostok'
         }
 
         tzs = ''

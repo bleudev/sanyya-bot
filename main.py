@@ -140,14 +140,20 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         format_string = "%d %s %d %d:%d"
         month_str = month_strs[now_datetime.month]
         
+        _hms = now_datetime.hour, now_datetime.minute
+        
+        _h = _hms[0] if _hms[0] >= 10 else int('0' + str(_hms[0]))
+        _m = _hms[1] if _hms[1] >= 10 else int('0' + str(_hms[1]))
+        hms = _h, _m
+        
         now_str = format_string % (now_datetime.day,
                             month_str,
                             now_datetime.year,
-                            now_datetime.hour,
-                            now_datetime.minute)
+                            hms[0],
+                            hms[1])
         
         embed = discord.Embed(color=discord.Color.purple(), title=now_str)
-        embed.set_footer(text="Время по МСК")
+        embed.set_footer(text=f"Часовой пояс - {city}")
         
         await mes.reply(embed=embed)
     else:

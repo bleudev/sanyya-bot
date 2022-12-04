@@ -9,7 +9,7 @@ from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
 from random import randint
 from datetime import datetime
-from pytz import timezone
+from pytz import timezone, all_timezones
 
 from updates import json as update_json
 from search import searchh
@@ -109,7 +109,17 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         await mes.reply("Ну, как хочешь")
     elif command == "u2":
         await get_update_by_its_id(1, mes)
-    elif command == "t":
+    elif command.startswith("t"):
+        city = command.replace('t ', '')
+        
+        cities = {
+            'Москва': 'Europe/Moscow',
+            'Киев': 'Europe/Kiev',
+            'Калининград': 'Europe/Kaliningrad',
+        }
+
+        tz = timezone(cities[city])
+        
         month_strs = {
             1: "Января",
             2: "Февраля",
@@ -124,8 +134,6 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
             11: "Ноября",
             12: "Декабря"
         }
-
-        tz = timezone('Europe/Moscow')
 
         now_datetime = datetime.now(tz)
         format_string = "%d %s %d %d:%d"

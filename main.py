@@ -1,5 +1,5 @@
 import discord, os
-from discord import app_commands, ui, Embed
+from discord import app_commands, ui, Embed, Colour
 from discord.ext.tasks import loop
 from discord import MessageType as mt
 
@@ -9,7 +9,7 @@ from google.cloud import dialogflow_v2 as dialogflow
 from time import sleep
 from random import randint
 from datetime import datetime
-from pytz import timezone, all_timezones
+from pytz import timezone
 
 from updates import json as update_json
 from search import searchh
@@ -165,6 +165,12 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         embed.set_footer(text=f"Часовой пояс - {city}")
         
         await mes.reply(embed=embed)
+    elif command.startswith('hex'):
+        colour = command.replace('hex ', '')
+        emb = Embed(colour=Colour.from_str(colour), description='Посмотри, нравится тебе этот цвет или нет ;)')
+        emb.set_footer(text=f'Твой цвет - {colour}')
+        
+        await mes.reply(embed=emb)
     else:
         await mes.reply(command)
 

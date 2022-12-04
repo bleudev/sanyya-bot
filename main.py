@@ -54,10 +54,15 @@ def textMessage(s: str, lang="ru") -> str:
         return i_dont_understands[lang]
 
 async def get_update_by_its_id(uid: int, message: discord.Message):
-    last_update = update_json[uid]
+    upd = update_json[uid]
+    date = upd["date"]
+    name = upd["name"]
+    changelog = ''
+    with open(f'changelog/{name}', 'r', encoding='utf-8') as f:
+        changelog = f.read()
 
-    embed = discord.Embed(color=discord.Color.purple(), title=last_update["date_str"])
-    embed.add_field(name="Список изменений", value=last_update["changelog"])
+    embed = discord.Embed(color=discord.Color.purple(), title=name)
+    embed.add_field(name="Список изменений", value=changelog)
     await message.reply(embed=embed)
 
 async def AssistentMessage(mes: discord.Message, lang="ru"):
@@ -86,13 +91,14 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         data_day_strs = [
             ("Сегодня", 0),
             ("Вчера", 1),
-            ("Позавчера", 2)
+            ("Позавчера", 2),
+            ("Месяц назад", 30)
         ]
         
         _day_str = ""
         
-        for day_str, ago in data_day_strs:
-            if days_ago == ago:
+        for day_str, ago in data_day_strs[::-1]:
+            if days_ago >= ago:
                 _day_str = day_str
                 break
         

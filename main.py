@@ -167,8 +167,9 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         await mes.reply(embed=embed)
     elif command.startswith('hex'):
         colour = command.replace('hex ', '')
-        emb = Embed(colour=Colour.from_str(colour), description='Посмотри, нравится тебе этот цвет или нет ;)')
-        emb.set_footer(text=f'Твой цвет - {colour}')
+        emb = Embed(colour=Colour.from_str(colour),
+                    description='Посмотри, нравится тебе этот цвет или нет ;)',
+                    title=colour)
         
         await mes.reply(embed=emb)
     else:

@@ -142,6 +142,12 @@ def getRussianAlphabet() -> list:
     return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']
 
 
+def glue(tup) -> str:
+    r = ''
+    for i in tup:
+        r += i
+    return r
+
 class SanyyaBot(discord.Client):
     def __init__(self) -> None:
         intents = discord.Intents.default()
@@ -169,7 +175,11 @@ async def on_ready():
 
 @bot.tree.command(description="Информация про бота")
 async def инфо(interaction: discord.Interaction):
-    await interaction.response.send_message("Оффициальный дискорд сервер: https://discord.gg/8QasqE369f", ephemeral=True)
+    text = (
+        "Разработчики: `pixeldeee#3565`\n",
+        "Оффициальный дискорд сервер: https://discord.gg/QsE5DSQrsx"
+    )
+    await interaction.response.send_message(glue(text), ephemeral=True)
 
 
 @bot.tree.command(description="Сообщить о баге")

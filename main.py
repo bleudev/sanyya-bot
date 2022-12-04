@@ -111,6 +111,7 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         await get_update_by_its_id(1, mes)
     elif command.startswith("t"):
         city = command.replace('t ', '')
+        city = city.replace(' ', '')
         
         cities = {
             'Москва': 'Europe/Moscow',

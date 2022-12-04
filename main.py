@@ -124,7 +124,7 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         tzs = ''
         
         for i in cities.keys():
-            tzs += (i + ' ')
+            tzs += (i + ', ')
 
         tz = timezone(cities[city])
         
@@ -160,7 +160,8 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
                             hms[1])
         
         embed = discord.Embed(color=discord.Color.purple(), title=now_str)
-        embed.set_footer(text=f"Часовой пояс - {city}  * Доступные часовые пояса - {tzs[:-1]}")
+        embed.add_field(name='Доступные часовые пояса:', value=tzs[:-2])
+        embed.set_footer(text=f"Часовой пояс - {city}")
         
         await mes.reply(embed=embed)
     else:

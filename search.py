@@ -20,6 +20,7 @@ endl2 = endl * 2
 
 supported_urls = [
     'ru.wikipedia.org',
+    'ru.stackoverflow.com',
 ]
 
 def searchh(q: str) -> str:

@@ -1,15 +1,17 @@
 from discord import Embed, Colour, ButtonStyle
 from discord import ui as UI
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 def ex(soup: BeautifulSoup, url: str):
-    title = soup.find_all('a', {'class': "question-hyperlink"})[0].get_text()
-    post = soup.find_all('div', {'class': "s-prose js-post-body"})[0]
+    title: Tag = soup.find('a', class_='question-hyperlink')
+    post: Tag = soup.find('div', class_='s-prose js-post-body')
     
-    js_code_blocks = post.find_all('pre', {'class': "lang-js s-code-block"})
+    js_code_blocks = post.find_all(class_='lang-js s-code-block')
     
     for i in js_code_blocks:
-        i2 = soup.new_tag('p')
+        i: Tag = i
+
+        i2 = soup.new_tag()
         i2.string = f"""
         ```js
         {i.get_text()}
@@ -19,7 +21,7 @@ def ex(soup: BeautifulSoup, url: str):
     
     text = post.get_text()
 
-    emb = Embed(colour=Colour.orange(), title=title)
+    emb = Embed(colour=Colour.orange(), title=title.get_text())
     
     emb.add_field(name='None', value=text)
     

@@ -24,7 +24,10 @@ supported_urls = [
 ]
 
 def searchh(q: str) -> str:
-    url = [i for i in search(q, stop=1, lang='ru', country='russia', pause=0) ][0]
+    if q.startswith('https://'):
+        url = q
+    else:
+        url = [i for i in search(q, stop=1, lang='ru', country='russia', pause=0) ][0]
     
     # Information about page
     parsed = urlparse(url)

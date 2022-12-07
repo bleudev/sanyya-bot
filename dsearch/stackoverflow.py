@@ -6,16 +6,7 @@ def ex(soup: BeautifulSoup, url: str):
     title: Tag = soup.find('a', class_='question-hyperlink')
     post: Tag = soup.find('div', class_='s-prose js-post-body')
     
-    js_code_blocks = post.find_all(class_='lang-js s-code-block')
-    
-    for i in js_code_blocks:
-        i.code.insert_before(f"""
-                             ```
-                             {i.get_text()}
-                             ```
-                             """)
-    
-    text = post.get_text()
+    text = post.get_text()[:100] + '...'
 
     emb = Embed(colour=Colour.orange(), title=title.get_text())
     

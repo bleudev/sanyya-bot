@@ -324,7 +324,7 @@ async def on_message(message: discord.Message):
                 
                 v = view(message=mes)
                 
-                await mes.edit(embed=emb, view=v)
+                await mes.edit(embed=emb, view=v, content='')
             elif isinstance(r, Embed):
                 await message.reply(embed=r)
             else:

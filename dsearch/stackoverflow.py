@@ -14,8 +14,6 @@ def ex(soup: BeautifulSoup, url: str):
                              {i.get_text()}
                              ```
                              """)
-        
-        i.replace_with(i2)
     
     text = post.get_text()
 

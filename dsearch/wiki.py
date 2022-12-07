@@ -1,4 +1,4 @@
-from discord import Embed, Colour, ButtonStyle
+from discord import Embed, Colour, ButtonStyle, Message
 from discord import ui as UI
 import views
 from bs4 import BeautifulSoup
@@ -24,8 +24,9 @@ def ex(soup: BeautifulSoup, url: str):
     emb.set_footer(text='Powered by Google | DSearch + Sanyya')
     
     class WikiView(UI.View):
-        def __init__(self, *, timeout: float = 180):
+        def __init__(self, *, message: Message, timeout: float = 180):
             super().__init__(timeout=timeout)
             self.add_item(UI.Button(style=ButtonStyle.url, url=url, label='Перейти'))
+            self.message = message
     
-    return emb, WikiView()
+    return emb, WikiView

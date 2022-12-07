@@ -317,9 +317,14 @@ async def on_message(message: discord.Message):
             r = searchh(message.content.replace('!exs ', ''))
             
             if isinstance(r, tuple):
+                mes = await message.reply('Awaiting answer of google...')
+                
                 emb = r[0]
                 view = r[1]
-                await message.reply(embed=emb, view=view)
+                
+                v = view(message=mes)
+                
+                await mes.edit(embed=emb, view=v)
             elif isinstance(r, Embed):
                 await message.reply(embed=r)
             else:

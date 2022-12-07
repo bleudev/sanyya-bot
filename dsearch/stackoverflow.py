@@ -3,12 +3,11 @@ from discord import ui as UI
 from bs4 import BeautifulSoup
 
 def ex(soup: BeautifulSoup, url: str):
-    print(soup.prettify())
-    title = soup.find('a', class_='question-hyperlink').get_text()
-    post = soup.find('div', class_='s-prose js-post-body')
-    user_details = soup.find('div', class_='user-details')
-    quest_time = soup.find('div', class_='user-action-time')
-    gravatar = soup.find('div', class_='user-gravatar32')
+    title = soup.find_all('a', class_='question-hyperlink')[0].get_text()
+    post = soup.find_all('div', class_='s-prose js-post-body')[0]
+    user_details = soup.find_all('div', class_='user-details')[0]
+    quest_time = soup.find_all('div', class_='user-action-time')[0]
+    gravatar = soup.find_all('div', class_='user-gravatar32')[0]
     
     text = post.get_text()[:300] + '...'
     user_name = user_details.a.get_text()

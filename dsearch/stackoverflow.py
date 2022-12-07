@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 def ex(soup: BeautifulSoup, url: str):
     title = soup.find_all('a', {'class': "question-hyperlink"})[0].get_text()
-    post = soup.find_all('div', {'class': "postcell post-layout--right"})[0].get_text()
+    post = soup.find_all('div', {'class': "postcell post-layout--right"})[0].get_text()[:1024]
     emb = Embed(colour=Colour.orange(), title=title)
     
     emb.add_field(name='None', value=post)

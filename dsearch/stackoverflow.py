@@ -1,16 +1,14 @@
 from discord import Embed, Colour, ButtonStyle
 from discord import ui as UI
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 
 def ex(soup: BeautifulSoup, url: str):
-    title: Tag = soup.find('a', class_='question-hyperlink')
-    post: Tag = soup.find('div', class_='s-prose js-post-body')
+    title = soup.find('a', class_='question-hyperlink').get_text()
+    post = soup.find('div', class_='s-prose js-post-body')
     
     text = post.get_text()[:300] + '...'
 
-    emb = Embed(colour=Colour.orange(), title=title.get_text())
-    
-    emb.add_field(name='None', value=text)
+    emb = Embed(colour=Colour.orange(), title=title, description=text)
     
     class StackView(UI.View):
         def __init__(self, *, timeout: float = 180):

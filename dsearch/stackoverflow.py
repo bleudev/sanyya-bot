@@ -1,4 +1,4 @@
-from discord import Embed, Colour, ButtonStyle, Message, PartialEmoji
+from discord import Embed, Colour, ButtonStyle, Message, PartialEmoji, Interaction
 from discord import ui as UI
 from bs4 import BeautifulSoup
 
@@ -41,7 +41,8 @@ def ex(soup: BeautifulSoup, url: str):
             self.message = message
         
         @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green, emoji=PartialEmoji(name='👍'))
-        async def answers(self, *args, **kwrgs):
+        async def answers(self, interaction: Interaction):
             await self.message.edit(content='Answers')
+            await interaction.delete_original_response()
     
     return emb, StackView

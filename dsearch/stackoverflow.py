@@ -16,8 +16,15 @@ def ex(soup: BeautifulSoup, url: str):
     except AttributeError:
         user_name = '*unknown*'
 
-    time = quest_time.span.get_text()
-    user_avatar_url = gravatar.a.div.img.attrs['src']
+    try:
+        time = quest_time.span.get_text()
+    except AttributeError:
+        time = '*unknown*'
+    
+    try:
+        user_avatar_url = gravatar.a.div.img.attrs['src']
+    except AttributeError:
+        user_avatar_url = None
     
     footer = f'{user_name} задал этот вопрос {time}'
 

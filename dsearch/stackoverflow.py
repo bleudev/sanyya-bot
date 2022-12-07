@@ -6,7 +6,7 @@ def ex(soup: BeautifulSoup, url: str):
     title: Tag = soup.find('a', class_='question-hyperlink')
     post: Tag = soup.find('div', class_='s-prose js-post-body')
     
-    text = post.get_text()[:100] + '...'
+    text = post.get_text()[:300] + '...'
 
     emb = Embed(colour=Colour.orange(), title=title.get_text())
     

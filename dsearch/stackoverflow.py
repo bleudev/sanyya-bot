@@ -3,6 +3,7 @@ from discord import ui as UI
 from bs4 import BeautifulSoup
 
 def ex(soup: BeautifulSoup, url: str):
+    print(soup.prettify())
     title = soup.find('a', class_='question-hyperlink').get_text()
     post = soup.find('div', class_='s-prose js-post-body')
     user_details = soup.find('div', class_='user-details')

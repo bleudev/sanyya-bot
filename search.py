@@ -7,6 +7,7 @@ from discord import Embed, ButtonStyle, Colour
 from discord import ui as UI
 from discord.ui import View
 import views
+from dsearch import wiki, stackoverflow
 
 def p(*t):
     r = ''
@@ -59,28 +60,6 @@ def searchh(q: str) -> str:
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':
-        emb = Embed(colour=Colour.from_rgb(255, 255, 255))
-        ipa = soup.find_all('span', {'class': 'IPA'})[0]
-        ipa.decompose()
-        info = soup.body.p.get_text()
-        
-        def replace_for(string, format):
-            r: str = string
-            for i in range(50):
-                r = r.replace(format % i, '')
-            return r
-        
-        info = replace_for(info, '[%d]')
-        
-        info = info.replace('[1]', '').replace('[2]', '').replace('[3]', '').replace('[4]', '').replace('[5]', '')
-        title = soup.title.text + '  ' + views.emoji.beta
-        
-        emb.add_field(name=title, value=info)
-        emb.set_footer(text='Powered by Google | DSearch + Sanyya')
-        
-        class WikiView(View):
-            def __init__(self, *, timeout: float = 180):
-                super().__init__(timeout=timeout)
-                self.add_item(UI.Button(style=ButtonStyle.url, url=url, label='Перейти'))
-        
-        return emb, WikiView()
+        return wiki.ex(soup, url)
+    if host == 'ru.stackoverflow.com':
+        return stackoverflow.ex(soup, url)

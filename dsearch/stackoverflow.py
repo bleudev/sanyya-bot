@@ -10,7 +10,12 @@ def ex(soup: BeautifulSoup, url: str):
     gravatar = soup.find_all('div', class_='user-gravatar32')[0]
     
     text = post.get_text()[:300] + '...'
-    user_name = user_details.a.get_text()
+    
+    try:
+        user_name = user_details.a.get_text()
+    except AttributeError:
+        user_name = '*unknown*'
+
     time = quest_time.span.get_text()
     user_avatar_url = gravatar.a.div.img.attrs['src']
     

@@ -9,14 +9,12 @@ def ex(soup: BeautifulSoup, url: str):
     js_code_blocks = post.find_all(class_='lang-js s-code-block')
     
     for i in js_code_blocks:
-        i: Tag = i
-
-        i2 = soup.new_tag()
-        i2.string = f"""
-        ```js
-        {i.get_text()}
-        ```
-        """
+        i.code.insert_before(f"""
+                             ```
+                             {i.get_text()}
+                             ```
+                             """)
+        
         i.replace_with(i2)
     
     text = post.get_text()

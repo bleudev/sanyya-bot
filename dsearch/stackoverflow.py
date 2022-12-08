@@ -40,10 +40,19 @@ def ex(soup: BeautifulSoup, url: str):
             self.add_item(UI.Button(style=ButtonStyle.url, url=url, label='Перейти'))
             self.message = message
         
+        @UI.button(label='Вопрос', custom_id='question', style=ButtonStyle.grey)
+        async def question(self, interaction: Interaction, *args):
+            await interaction.response.defer() # Ignore errors
+            
+            emb, view = ex(soup, url)
+            
+            view = view(message=self.message)
+
+            await self.message.edit(embed=emb, view=view)
+        
         @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green, emoji=PartialEmoji(name='👍'))
         async def answers(self, interaction: Interaction, *args):
-            # Ignore 'CommandInvokeError'
-            await interaction.response.defer()
+            await interaction.response.defer()  # Ignore errors
 
             await self.message.edit(content='Answers', embed=None)
     

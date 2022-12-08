@@ -48,7 +48,7 @@ def ex(soup: BeautifulSoup, url: str):
             
             view = view(message=self.message)
 
-            await self.message.edit(embed=emb, view=view)
+            await self.message.edit(embed=emb, view=view, content='')
         
         @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green, emoji=PartialEmoji(name='👍'))
         async def answers(self, interaction: Interaction, *args):

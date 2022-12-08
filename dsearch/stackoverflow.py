@@ -44,5 +44,6 @@ def ex(soup: BeautifulSoup, url: str):
         async def answers(self, interaction: Interaction, *args):
             await interaction.response.send_message('Update message!', ephemeral=True)
             await self.message.edit(content='Answers', embed=None)
+            await interaction.delete_original_response()
     
     return emb, StackView

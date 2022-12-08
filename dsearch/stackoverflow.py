@@ -41,7 +41,7 @@ def ex(soup: BeautifulSoup, url: str):
             self.message = message
         
         @UI.button(label='Вопрос', custom_id='question', style=ButtonStyle.grey)
-        async def question(self, interaction: Interaction):
+        async def question(self, interaction: Interaction, *a, **k):
             emb, view = ex(soup, url)
             view = view(message=self.message)
 
@@ -49,7 +49,7 @@ def ex(soup: BeautifulSoup, url: str):
             await interaction.response.defer() # Ignore errors
         
         @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green)
-        async def answers(self, interaction: Interaction):
+        async def answers(self, interaction: Interaction, *a, **k):
             await self.message.edit(content='Answers', embed=None)
             await interaction.response.defer() # Ignore errors
     

@@ -1,4 +1,4 @@
-from discord import Embed, Colour, ButtonStyle, Message, PartialEmoji, Interaction
+from discord import Embed, Colour, ButtonStyle, Message, Interaction
 from discord import ui as UI
 from bs4 import BeautifulSoup
 
@@ -41,19 +41,16 @@ def ex(soup: BeautifulSoup, url: str):
             self.message = message
         
         @UI.button(label='Вопрос', custom_id='question', style=ButtonStyle.grey)
-        async def question(self, interaction: Interaction, *args):
-            await interaction.response.defer() # Ignore errors
-            
+        async def question(self, interaction: Interaction):
             emb, view = ex(soup, url)
-            
             view = view(message=self.message)
 
             await self.message.edit(embed=emb, view=view, content='')
+            await interaction.response.defer() # Ignore errors
         
-        @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green, emoji=PartialEmoji(name='👍'))
-        async def answers(self, interaction: Interaction, *args):
-            await interaction.response.defer()  # Ignore errors
-
+        @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green)
+        async def answers(self, interaction: Interaction):
             await self.message.edit(content='Answers', embed=None)
+            await interaction.response.defer() # Ignore errors
     
     return emb, StackView

@@ -17,7 +17,11 @@ class UpdateJson(TypedDict):
 
 json: List[UpdateJson] = [
     {
+        "date": date(11, 12, 22),
+        "name": "2022.12H1a",
+    },
+    {
         "date": date(4, 12, 22),
-        "name": "2022.48b"
-    }
+        "name": "2022.48b",
+    },
 ]

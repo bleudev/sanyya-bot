@@ -34,7 +34,11 @@ def searchh(q: str) -> str:
     host = parsed.hostname
     data = get(url).text
     soup = BeautifulSoup(data)
-    title = soup.title.text
+    
+    try:
+        title = soup.title.text
+    except AttributeError:
+        title = url
 
     if host in supported_urls:  # DSearch
         return DSearch(url, soup, host)

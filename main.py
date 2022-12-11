@@ -175,17 +175,15 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         
         await mes.reply(embed=emb)
     else:
-        r = searchh(mes.content)
+        r = searchh(s)
         
         if isinstance(r, tuple):
-            mes = await mes.reply('Awaiting answer of google...')
-            
-            emb = r[0]
-            view = r[1]
-            
+            mes2 = await mes.reply('Awaiting answer of google...')
+
+            emb, view = r    
             v = view(message=mes)
-            
-            await mes.edit(embed=emb, view=v, content='')
+
+            await mes2.edit(embed=emb, view=v, content='')
         elif isinstance(r, Embed):
             await mes.reply(embed=r)
         else:

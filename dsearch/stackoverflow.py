@@ -62,6 +62,15 @@ def ex(soup: BeautifulSoup, url: str):
                 
                 emb.add_field(name='Лучший ответ ✅', value=text)
             
+            if answers != []:
+                answ = answers[0]
+                layout = answ.find_all('div', class_='post-layout')[0]
+                answercell_layout = layout.find_all('div', class_='answercell post-layout--right')[0]
+                answer_body = answercell_layout.find_all('div', class_='s-prose js-post-body')[0]
+                text = answer_body.get_text()[:300] + '...'
+                
+                emb.add_field(name='Другие ответы', value=text)
+            
             await self.message.edit(embed=emb)
             await interaction.response.defer() # Ignore errors
     

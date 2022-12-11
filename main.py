@@ -175,7 +175,10 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         
         await mes.reply(embed=emb)
     else:
-        r = searchh(s)
+        try:
+            r = searchh(s)
+        except:
+            await mes.reply('Ошибка! Наверное, вы ввели неверный запрос')
         
         if isinstance(r, tuple):
             mes2 = await mes.reply('Ждём ответ от гугла...')

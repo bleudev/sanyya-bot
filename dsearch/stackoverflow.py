@@ -10,6 +10,7 @@ def ex(soup: BeautifulSoup, url: str):
     gravatar = soup.find_all('div', class_='user-gravatar32')[0]
     
     answers_div = soup.find_all('div', id='answers')[0]
+    accepted_answers = answers_div.find_all('div', class_='answer js-answer accepted-answer js-accepted-answer')
     answers = answers_div.find_all('div', class_='answer js-answer')
     
     text = post.get_text()[:300] + '...'
@@ -50,6 +51,17 @@ def ex(soup: BeautifulSoup, url: str):
         
         @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green)
         async def answers(self, interaction: Interaction, *a, **k):
+            emb = Embed(colour=Colour.orange(), title='Ответы')
+            
+            if accepted_answers != []:
+                answ = accepted_answers[0]
+                layout = answ.find_all('div', class_='post-layout')[0]
+                answercell_layout = layout.find_all('div', class_='answercell post-layout--right')[0]
+                answer_body = answercell_layout.find_all('div', class_'s-prose js-post-body')[0]
+                text = answer_body.get_text()[:300] + '...'
+                
+                emb.add_field(name='Лучший ответ ✅', value=text)
+            
             await self.message.edit(content='Answers', embed=None)
             await interaction.response.defer() # Ignore errors
     

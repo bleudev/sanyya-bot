@@ -46,7 +46,7 @@ def ex(soup: BeautifulSoup, url: str):
             emb, view = ex(soup, url)
             view = view(message=self.message)
 
-            await self.message.edit(embed=emb, view=view, content='')
+            await self.message.edit(embed=emb, view=view)
             await interaction.response.defer() # Ignore errors
         
         @UI.button(label='Ответы', custom_id='answers', style=ButtonStyle.green)
@@ -62,7 +62,7 @@ def ex(soup: BeautifulSoup, url: str):
                 
                 emb.add_field(name='Лучший ответ ✅', value=text)
             
-            await self.message.edit(content='Answers', embed=None)
+            await self.message.edit(embed=emb)
             await interaction.response.defer() # Ignore errors
     
     return emb, StackView

@@ -60,11 +60,11 @@ def searchh(q: str) -> str:
         emb.add_field(name=title, value='No description')
     
     class UrlView(View):
-        def __init__(self, link_url, timeout: float = 180):
+        def __init__(self, timeout: float = 180):
             super().__init__(timeout=timeout)
-            self.add_item(UI.Button(style=ButtonStyle.url, url=link_url, label='Перейти'))
+            self.add_item(UI.Button(style=ButtonStyle.url, url=url, label='Перейти'))
     
-    return emb, UrlView(url)
+    return emb, UrlView
 
 def DSearch(url, soup: BeautifulSoup, host) -> Embed:
     if host == 'ru.wikipedia.org':

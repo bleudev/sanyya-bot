@@ -67,6 +67,8 @@ async def get_update_by_its_id(uid: int, message: discord.Message):
 
 async def AssistentMessage(mes: discord.Message, lang="ru"):
     # $u - Обновления
+    # $t - Время
+    # $hex - Посмотреть цвет
     s = mes.content
 
     change_assistent_key()
@@ -173,7 +175,21 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         
         await mes.reply(embed=emb)
     else:
-        await mes.reply(command)
+        r = searchh(mes.content)
+        
+        if isinstance(r, tuple):
+            mes = await mes.reply('Awaiting answer of google...')
+            
+            emb = r[0]
+            view = r[1]
+            
+            v = view(message=mes)
+            
+            await mes.edit(embed=emb, view=v, content='')
+        elif isinstance(r, Embed):
+            await mes.reply(embed=r)
+        else:
+            await mes.reply(r)
 
 def getRussianAlphabet() -> list:
     return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']
@@ -340,7 +356,7 @@ async def on_message(message: discord.Message):
         
         chatmode = channels_json[message.channel.id]
         go_to_chat = ["давай поболтаем", "давай поговорим", "го поболтаем", "го поговорим"]
-        end_chat = ["хватит"]
+        end_chat = ["хватит", "хватит болтать"]
         
         if chatmode is False:
             if message.content.lower() in go_to_chat:

@@ -178,16 +178,18 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
         r = searchh(s)
         
         if isinstance(r, tuple):
-            mes2 = await mes.reply('Awaiting answer of google...')
+            mes2 = await mes.reply('Ждём ответ от гугла...')
 
             emb, view = r    
             v = view(message=mes)
 
-            await mes2.edit(embed=emb, view=v, content='')
+            await mes2.edit(embed=emb, view=v, content='Нашёл в интернете:')
         elif isinstance(r, Embed):
-            await mes.reply(embed=r)
-        else:
+            await mes.reply(embed=r, content='Нашёл в интернете:')
+        elif isinstance(r, str):
             await mes.reply(r)
+        else:
+            await mes.reply('DEV: No answer!')
 
 def getRussianAlphabet() -> list:
     return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']

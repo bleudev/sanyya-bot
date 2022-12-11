@@ -71,6 +71,9 @@ def ex(soup: BeautifulSoup, url: str):
                 
                 emb.add_field(name='Другие ответы', value=text)
             
+            if answers == [] and accepted_answers == []:
+                emb.description = 'Нету ответов :(\n\nВы можете зайти на сайт при помощи кнопки "Перейти", а затем ответить на вопрос'
+            
             await self.message.edit(embed=emb)
             await interaction.response.defer() # Ignore errors
     

@@ -31,19 +31,15 @@ DIALOGFLOW_ASSISTENT_PROJECT_ID = 'sanyya-assistent-cqjy'
 SESSION_ID =  f"discord_session_{randint(1, 1000000)}"
 
 endl = "\n"
-i_dont_understands = {
-    "ru": "Я Вас не понял!",
-    "en": "I don't inderstand you"
-}
 
 
-def textMessage(s: str, lang="ru") -> str:
+def textMessage(s: str) -> str:
     change_default_key()
     
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
     text_input = dialogflow.types.TextInput(text=s,
-                                            language_code=lang)
+                                            language_code='ru')
     query_input = dialogflow.types.QueryInput(text=text_input)
 
     response = session_client.detect_intent(session=session, query_input=query_input)
@@ -51,7 +47,7 @@ def textMessage(s: str, lang="ru") -> str:
     if response.query_result.fulfillment_text:
         return str(response.query_result.fulfillment_text)
     else:
-        return i_dont_understands[lang]
+        return 'Что ты сказал?'
 
 async def get_update_by_its_id(uid: int, message: discord.Message):
     upd = update_json[uid]
@@ -65,7 +61,7 @@ async def get_update_by_its_id(uid: int, message: discord.Message):
     embed.add_field(name="Список изменений", value=changelog)
     await message.reply(embed=embed)
 
-async def AssistentMessage(mes: discord.Message, lang="ru"):
+async def AssistentMessage(mes: discord.Message):
     # $u - Обновления
     # $t - Время
     # $hex - Посмотреть цвет
@@ -76,7 +72,7 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DIALOGFLOW_ASSISTENT_PROJECT_ID, SESSION_ID)
     text_input = dialogflow.types.TextInput(text=s,
-                                            language_code=lang)
+                                            language_code='ru')
     query_input = dialogflow.types.QueryInput(text=text_input)
 
     response = session_client.detect_intent(session=session, query_input=query_input)
@@ -193,9 +189,6 @@ async def AssistentMessage(mes: discord.Message, lang="ru"):
             await mes.reply(r)
         else:
             await mes.reply('DEV: No answer!')
-
-def getRussianAlphabet() -> list:
-    return [i for i in 'ёйцукенгшщзхъфывапролджэячсмитьбю']
 
 
 def glue(tup) -> str:
@@ -349,13 +342,6 @@ async def on_message(message: discord.Message):
             else:
                 await message.reply(r)
             return
-
-        l = "en"
-        
-        for i in message.content.lower():
-            if i in getRussianAlphabet():
-                l = "ru"
-                break
         
         chatmode = channels_json[message.channel.id]
         go_to_chat = ["давай поболтаем", "давай поговорим", "го поболтаем", "го поговорим"]
@@ -368,7 +354,7 @@ async def on_message(message: discord.Message):
                 member = message.guild.get_member(bot.user.id)
                 await member.edit(nick="Sanyya | [C]")
             else:
-                await AssistentMessage(message, lang=l)
+                await AssistentMessage(message)
         elif chatmode is True:
             if message.content.lower() in end_chat:
                 channels_json[message.channel.id] = False
@@ -376,6 +362,6 @@ async def on_message(message: discord.Message):
                 member = message.guild.get_member(bot.user.id)
                 await member.edit(nick="Sanyya | [A]")
             else:
-                await message.reply(textMessage(message.content, lang=l))
+                await message.reply(textMessage(message.content))
 
 bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")

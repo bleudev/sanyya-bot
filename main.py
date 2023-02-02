@@ -352,7 +352,7 @@ async def on_message(message: discord.Message):
                 channels_json[message.channel.id] = True
                 await message.reply('Отлично! Если вам надоест, напишите слово "Хватит"')
                 member = message.guild.get_member(bot.user.id)
-                await member.edit(nick="Sanyya | [C]")
+                await member.edit(nick="Sanya | [C]")
             else:
                 await AssistentMessage(message)
         elif chatmode is True:
@@ -360,7 +360,7 @@ async def on_message(message: discord.Message):
                 channels_json[message.channel.id] = False
                 await message.reply('Надоело? Если ещё захотите пообщаться, напишите "Давай поболтаем"')
                 member = message.guild.get_member(bot.user.id)
-                await member.edit(nick="Sanyya | [A]")
+                await member.edit(nick="Sanya | [A]")
             else:
                 await message.reply(textMessage(message.content))
 

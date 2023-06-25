@@ -364,4 +364,4 @@ async def on_message(message: discord.Message):
             else:
                 await message.reply(textMessage(message.content))
 
-bot.run("MTAwODAzNjc2NTU5NDAzODM5Mg.GDxyI_.N3egLRxxADvxLku87nUXdA6PojzWIq3ar-V4BI")
+bot.run(os.environ['TOKEN'])
